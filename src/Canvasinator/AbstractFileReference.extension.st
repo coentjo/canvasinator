@@ -1,6 +1,15 @@
 Extension { #name : #AbstractFileReference }
 
 { #category : #'*Canvasinator' }
+AbstractFileReference >> allInterestringChildren [
+	"Return all the files and folders recursively nested in the receiver"
+	
+	^ CollectVisitor 
+		breadthFirst: self resolve 
+		collect: [:entry | entry reference ]
+]
+
+{ #category : #'*Canvasinator' }
 AbstractFileReference >> gtSecondTreeFor: aView [
 	<gtView>
 	self isDirectory
@@ -33,12 +42,12 @@ AbstractFileReference >> gtSecondTreeFor: aView [
 				do: [ :anException | anException return: '' ] ]
 			width: 100;
 		column: 'cs' translated
-			text: [ :each | self numCsFiles asString]
+			text: [ :each | each numCsFiles asString]
 			width: 100
 ]
 
 { #category : #'*Canvasinator' }
 AbstractFileReference >> numCsFiles [
-	^ (self allChildren select: [ :f | f extension = 'cs' ])  
+	^ (self allInterestringChildren select: [ :f | f extension = 'cs' ])  
 		size
 ]
