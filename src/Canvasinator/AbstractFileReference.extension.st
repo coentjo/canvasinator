@@ -10,6 +10,18 @@ AbstractFileReference >> allInterestringChildren [
 ]
 
 { #category : #'*Canvasinator' }
+AbstractFileReference >> csFiles [
+	^ (self allInterestringChildren select: [ :f | f extension = 'cs' ])
+]
+
+{ #category : #'*Canvasinator' }
+AbstractFileReference >> csMethods [
+
+	self inform: self class name asString , '>>csMethods'.
+	^ OrderedCollection new.
+]
+
+{ #category : #'*Canvasinator' }
 AbstractFileReference >> gtSecondTreeFor: aView [
 	<gtView>
 	self isDirectory
@@ -42,7 +54,10 @@ AbstractFileReference >> gtSecondTreeFor: aView [
 				do: [ :anException | anException return: '' ] ]
 			width: 100;
 		column: 'cs' translated
-			text: [ :each | each numCsFiles asString]
+			text: [ :each | each csFiles size asString]
+			width: 100;
+		column: 'methods' translated
+			text: [:each | each csMethods size asString]
 			width: 100
 ]
 

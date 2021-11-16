@@ -1,6 +1,19 @@
 Extension { #name : #FileReference }
 
 { #category : #'*Canvasinator' }
+FileReference >> csMethods [
+
+	| model methodNodes |
+	model := [CSharpParser parse: self contents] 
+		 onErrorDo: [ :err | self inform:self class name, '>>csMethod:', err asString].
+	methodNodes := OrderedCollection new.
+	model
+		allNodesOfType: CSMethodDeclarationNode  
+		do: [ :node | methodNodes add: node ].
+	^ methodNodes
+]
+
+{ #category : #'*Canvasinator' }
 FileReference >> gtGraphForZip: aView [
 
 	<gtView>
