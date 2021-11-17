@@ -22,6 +22,49 @@ AbstractFileReference >> csMethods [
 ]
 
 { #category : #'*Canvasinator' }
+AbstractFileReference >> findLinkUrlsIn: aText [
+	| links regExp |
+	links := OrderedCollection new .
+	regExp := '<a href="(.*)">Click Here to go to the submission</a>' asRegex.
+	self contents linesDo: [ :line | 
+		(regExp matches: line)
+			ifTrue: [ links add: (regExp subexpression: 2) ].
+		].
+	^ (String streamContents: [ :str | 
+		links do: [ :lnk | 
+			str nextPutAll: lnk ] 
+			separatedBy: [str cr] ]) asRopedText
+]
+
+{ #category : #'*Canvasinator' }
+AbstractFileReference >> gtCanvasLinkFor: aView [
+	<gtView>
+	self isFile ifFalse: [ ^ aView empty ].
+	[ self readStreamDo: [ :s | s next: 1000 ] ]
+		on: ZnInvalidUTF8
+		do: [ ^ aView empty ].
+	^ aView explicit
+		title: 'canvas-url' translated;
+		priority: 49;
+		stencil: [ 
+			BrEditorElement new 
+				padding: (BlInsets all: 10);
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ];
+				editor: (BrTextEditor new 
+					text: (((self findLinkUrlsIn: self contents)) asRopedText) ) ];
+												
+		actionStencil: [ :tab | 
+			BrButton new 
+				aptitude: BrGlamorousButtonWithIconAptitude;
+				label: 'Go';
+				icon: BrGlamorousIcons go;
+				action: [ 
+				 WebBrowser openOn: (self findLinkUrlsIn: self contents) ] ] 				 
+]
+
+{ #category : #'*Canvasinator' }
 AbstractFileReference >> gtSecondTreeFor: aView [
 	<gtView>
 	self isDirectory
