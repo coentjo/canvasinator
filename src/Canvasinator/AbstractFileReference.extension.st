@@ -40,6 +40,7 @@ AbstractFileReference >> findLinkUrlsIn: aText [
 AbstractFileReference >> gtCanvasLinkFor: aView [
 	<gtView>
 	self isFile ifFalse: [ ^ aView empty ].
+	self extension = 'html' ifFalse: [ ^ aView empty ] .
 	[ self readStreamDo: [ :s | s next: 1000 ] ]
 		on: ZnInvalidUTF8
 		do: [ ^ aView empty ].

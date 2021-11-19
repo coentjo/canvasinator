@@ -52,3 +52,42 @@ FileReference >> gtGraphForZip: aView [
 			view layout horizontalTree.
 			  view ]
 ]
+
+{ #category : #'*Canvasinator' }
+FileReference >> gtViewDiff2For: aView [
+	<gtView>
+	|  end |
+	end := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.solution.cs' asFileReference .
+	^ aView textEditor
+		title: 'Diff2' translated;
+		priority: 21;
+		text: [ :anEditor | 
+			GtEpiceaDiffStencil new
+				from: self contents;
+				to: end contents;
+				create ]
+]
+
+{ #category : #'*Canvasinator' }
+FileReference >> gtViewDiffFor: aView [
+	<gtView>
+	| start end |
+	start := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.start.cs' asFileReference.
+	^ aView textEditor
+		title: 'Diff1' translated;
+		priority: 20;
+		text: [ :anEditor | 
+			GtEpiceaDiffStencil new
+				from: start contents;
+				to: self contents;
+				create ]
+]
+
+{ #category : #'*Canvasinator' }
+FileReference >> isBinaryProbably [
+	[ self readStreamDo: [ :s | s next: 1000 ] ]
+		on: ZnInvalidUTF8
+		do: [ ^ true ].
+	^ false
+
+]
