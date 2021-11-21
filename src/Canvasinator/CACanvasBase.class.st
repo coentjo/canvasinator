@@ -1,6 +1,9 @@
 Class {
 	#name : #CACanvasBase,
 	#superclass : #Object,
+	#instVars : [
+		'courseNumber'
+	],
 	#classInstVars : [
 		'token'
 	],
@@ -22,9 +25,15 @@ CACanvasBase class >> requestToken: aString [
 
 { #category : #accessing }
 CACanvasBase class >> token [
+	^ token
 ]
 
 { #category : #accessing }
 CACanvasBase class >> userToken [
 	^ token ifNil: [token := self askUserToken]
+]
+
+{ #category : #accessing }
+CACanvasBase >> course: aCourseNumber [
+	courseNumber := aCourseNumber
 ]

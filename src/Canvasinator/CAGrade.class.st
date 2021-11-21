@@ -11,6 +11,10 @@ Class {
 }
 
 { #category : #accessing }
+CAGrade class >> course: aCourse grade: aGrade repair: aRepair [ 
+]
+
+{ #category : #accessing }
 CAGrade class >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [ 
 	^ self new
 		moment: aMoment course: aCourse grade: aGrade repair: aRepair
@@ -19,6 +23,12 @@ CAGrade class >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [
 { #category : #accessing }
 CAGrade >> course [
 	^ course
+]
+
+{ #category : #accessing }
+CAGrade >> grade: aGrade repair: aRepair [ 
+	^ self new
+		moment: 'x' course: 'y' grade: aGrade repair: aRepair
 ]
 
 { #category : #accessing }

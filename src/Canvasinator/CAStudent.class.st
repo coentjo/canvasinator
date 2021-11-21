@@ -19,6 +19,20 @@ CAStudent class >> nr: aNumber name: aName [
 ]
 
 { #category : #accessing }
+CAStudent >> course: aCourse grade: aGrade repair: aRepair [
+	<deprecated>
+	
+	"for convenience, because for first use 'moment' is not relevant... "
+	^ self moment: 'X' course: aCourse grade: aGrade repair: aRepair
+]
+
+{ #category : #accessing }
+CAStudent >> gradeFor: aString [ 
+	self grades select: [ :g | 
+		'1' ]
+]
+
+{ #category : #accessing }
 CAStudent >> grades [
 	^ grades ifNil: [grades := OrderedCollection new]
 ]
@@ -45,12 +59,29 @@ CAStudent >> name: aName [
 
 { #category : #accessing }
 CAStudent >> number [
-	^ number
+	^ number ifNil: ['??']
 ]
 
 { #category : #accessing }
 CAStudent >> number: aNumber [
 	number := aNumber
+]
+
+{ #category : #accessing }
+CAStudent >> printInfo [
+
+	^ String streamContents: [ :stream | 
+		  stream
+			  nextPutAll:
+				  'CAStudent nr: ''' , self number asString , ''' name: '''
+				  , self name , '''; ';
+			  cr;
+			  tab.
+		  #( 'IEO' 'ADO' 'ESO' 'DDO' 'EDO' ) do: [ :course | 
+			  stream
+				  tab;
+				  nextPutAll: course;
+				  nextPutAll: ': ''''' ] ]
 ]
 
 { #category : #accessing }
