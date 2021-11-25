@@ -17,7 +17,7 @@ AbstractFileReference >> csFiles [
 { #category : #'*Canvasinator' }
 AbstractFileReference >> csMethods [
 
-	self inform: self class name asString , '>>csMethods'.
+	self inform: self class name asString , '>>csMethods is called on AbstractFileReference'.
 	^ OrderedCollection new.
 ]
 
@@ -98,7 +98,10 @@ AbstractFileReference >> gtSecondTreeFor: aView [
 				do: [ :anException | anException return: '' ] ]
 			width: 100;
 		column: 'cs' translated
-			text: [ :each | each csFiles size asString]
+			text: [ :each | 
+				[each csFiles size asString]
+				on: SmaCCParserError
+				do: [ :anException | self inform: anException class asString  ] ]
 			width: 100;
 		column: 'methods' translated
 			text: [:each | each csMethods size asString]

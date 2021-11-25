@@ -4,12 +4,16 @@ Extension { #name : #FileReference }
 FileReference >> csMethods [
 
 	| model methodNodes |
-	model := [CSharpParser parse: self contents] 
-		 onErrorDo: [ :err | self inform:self class name, '>>csMethod:', err asString].
 	methodNodes := OrderedCollection new.
-	model
-		allNodesOfType: CSMethodDeclarationNode  
-		do: [ :node | methodNodes add: node ].
+	model := [ 
+	         CSharpParser parse: self contents.
+	         model
+		         allNodesOfType: CSMethodDeclarationNode
+		         do: [ :node | methodNodes add: node ] ]
+		         on: SmaCCParserError
+		         do: [ :err | 
+		         self inform: self class name , '>>csMethod:' , err asString ].
+
 	^ methodNodes
 ]
 

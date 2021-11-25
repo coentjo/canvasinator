@@ -5,7 +5,8 @@ Class {
 		'courseNumber'
 	],
 	#classInstVars : [
-		'token'
+		'token',
+		'defaultBase'
 	],
 	#category : #'Canvasinator-Canvasinator'
 }
@@ -13,7 +14,23 @@ Class {
 { #category : #accessing }
 CACanvasBase class >> askUserToken [
 	token := self requestToken: 'Enter your canvas token'. 
+	token ifNil: [ self inform: 'Class CACanvasBase needs a canvas Token: it is nil now.' ] .
 	^ token
+]
+
+{ #category : #accessing }
+CACanvasBase class >> course: aString [ 
+]
+
+{ #category : #accessing }
+CACanvasBase class >> defaultBase [
+	^ defaultBase ifNil: [ defaultBase :=  self new ]
+]
+
+{ #category : #accessing }
+CACanvasBase class >> defaultBaseUrl [
+	"if needed, replace it with your own..."
+	^ 'https://fhict.instructure.com/' 
 ]
 
 { #category : #accessing }
@@ -26,6 +43,12 @@ CACanvasBase class >> requestToken: aString [
 { #category : #accessing }
 CACanvasBase class >> token [
 	^ token
+]
+
+{ #category : #accessing }
+CACanvasBase class >> token: aCanvasToken [ 
+	token ifNotNil: [self inform: 'replacing non-nil-token'].
+	token := aCanvasToken
 ]
 
 { #category : #accessing }
