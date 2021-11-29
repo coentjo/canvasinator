@@ -64,7 +64,7 @@ FileReference >> gtViewDiff2For: aView [
 	end := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.solution.cs' asFileReference .
 	^ aView textEditor
 		title: 'Diff2' translated;
-		priority: 21;
+		priority: 54;
 		text: [ :anEditor | 
 			GtEpiceaDiffStencil new
 				from: self contents;
@@ -79,7 +79,7 @@ FileReference >> gtViewDiffFor: aView [
 	start := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.start.cs' asFileReference.
 	^ aView textEditor
 		title: 'Diff1' translated;
-		priority: 20;
+		priority: 52;
 		text: [ :anEditor | 
 			GtEpiceaDiffStencil new
 				from: start contents;

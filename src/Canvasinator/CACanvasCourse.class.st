@@ -9,16 +9,16 @@ Class {
 }
 
 { #category : #accessing }
-CACanvasCourse class >> baseUrl: aBaseUrl number: aCourseNumber [
-	^ self new
-		baseUrl: aBaseUrl asUrl;
-		number: aCourseNumber
-		yourself
+CACanvasCourse >> baseUrl: aUrl [
+	baseUrl := aUrl
 ]
 
 { #category : #accessing }
-CACanvasCourse >> baseUrl: aUrl [
-	baseUrl := aUrl
+CACanvasCourse >> baseUrl: aBaseUrl number: aCourseNumber [
+	^ self 
+		baseUrl: aBaseUrl asUrl;
+		number: aCourseNumber
+		yourself
 ]
 
 { #category : #accessing }
