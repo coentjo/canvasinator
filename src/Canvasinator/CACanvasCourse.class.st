@@ -22,9 +22,15 @@ CACanvasCourse >> baseUrl: aBaseUrl number: aCourseNumber [
 ]
 
 { #category : #accessing }
+CACanvasCourse >> course: aCourseNumber [
+	courseNumber := aCourseNumber
+]
+
+{ #category : #accessing }
 CACanvasCourse >> defaultBase [
 	| canvasBase |
-	canvasBase := CACanvasBase defaultBase
+	canvasBase := CACanvasBase defaultBase.
+	^ self
 ]
 
 { #category : #accessing }
