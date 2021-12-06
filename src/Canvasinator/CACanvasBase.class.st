@@ -13,9 +13,13 @@ Class {
 
 { #category : #accessing }
 CACanvasBase class >> askUserToken [
-	token := self requestToken: 'Enter your canvas token'. 
-	token ifNil: [ self inform: 'Class CACanvasBase needs a canvas Token: it is nil now.' ] .
-	^ token
+
+	token := self requestToken: 'Enter your canvas token'.
+	token ifNil: [ 
+		self inform:
+			'Class CACanvasBase needs a canvas Token: it is nil now.'
+			, Character cr , 'Execute this in a Playground: ' , Character cr
+			, 'CACanvasBase token: ''a1bc23d4e5''' ]
 ]
 
 { #category : #accessing }
@@ -35,6 +39,7 @@ CACanvasBase class >> defaultBaseUrl [
 
 { #category : #accessing }
 CACanvasBase class >> requestToken: aString [
+	<gtExample>
 	^ BlBlocUIManagerNotification
 		requestOrNil: #requestPassword:
 		with: {aString}

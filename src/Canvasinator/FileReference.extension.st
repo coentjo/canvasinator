@@ -74,17 +74,20 @@ FileReference >> gtViewDiff2For: aView [
 
 { #category : #'*Canvasinator' }
 FileReference >> gtViewDiffFor: aView [
+
 	<gtView>
 	| start end |
-	start := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.start.cs' asFileReference.
+	self isFile ifFalse: [ ^ aView empty ].
+	start := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.start.cs'
+		         asFileReference.
 	^ aView textEditor
-		title: 'Diff1' translated;
-		priority: 52;
-		text: [ :anEditor | 
-			GtEpiceaDiffStencil new
-				from: start contents;
-				to: self contents;
-				create ]
+		  title: 'Diff1' translated;
+		  priority: 52;
+		  text: [ :anEditor | 
+			  GtEpiceaDiffStencil new
+				  from: start contents;
+				  to: self contents;
+				  create ]
 ]
 
 { #category : #'*Canvasinator' }
