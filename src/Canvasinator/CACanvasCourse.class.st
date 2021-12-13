@@ -37,8 +37,9 @@ CACanvasCourse >> course: aCourseNumber [
 { #category : #accessing }
 CACanvasCourse >> courseInfo [
 
-
-	^ self courseJson asString asRopedText
+	| cr |
+	cr := Character cr asString.
+	^ (self courseUrl , cr , '- - - - - - - - -', cr, self courseJson) asString asRopedText
 ]
 
 { #category : #accessing }
@@ -46,10 +47,17 @@ CACanvasCourse >> courseJson [
 
 	^ json ifNil: [ 
 		  json := ZnClient new
-			          url: 'https://fhict.instructure.com/api/v1/courses';
+			          url: self courseUrl ;
 			          headerAt: 'Authorization'
 			          put: ' Bearer ' , CACanvasBase userToken;
 			          get ]
+]
+
+{ #category : #accessing }
+CACanvasCourse >> courseUrl [
+
+	^ self urlForCourse: (courseNumber ifNil: [ 
+			 ^ 'https://fhict.instructure.com/api/v1/courses' ])
 ]
 
 { #category : #accessing }
@@ -100,7 +108,7 @@ CACanvasCourse >> gtJsonFor: aView [
 		= ZnMimeType applicationJson ]) ifFalse: [ ^ aView empty ]."
 	^ aView textEditor
 		title: 'JSON';
-		priority: 21;
+		priority: 120;
 		actionButtonIcon: BrGlamorousIcons tree 
 			action: [ :aButton | 
 				aButton phlow spawnObject: (
@@ -115,4 +123,9 @@ CACanvasCourse >> gtJsonFor: aView [
 CACanvasCourse >> number: aCourseNumber [
 
 	^ self baseUrl: CACanvasBase defaultBaseUrl number: aCourseNumber
+]
+
+{ #category : #accessing }
+CACanvasCourse >> urlForCourse: anObject [ 
+	^ 'https://fhict.instructure.com/courses/11531'
 ]
