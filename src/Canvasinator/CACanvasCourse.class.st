@@ -73,8 +73,9 @@ CACanvasCourse >> exampleCourse [
 	<gtExample>
 	<noTest>
 	^ self class
-		  baseUrl: 'https://fhict.instructure.com' asUrl 
-		  number: 9103
+		  baseUrl: 'https://fhict.instructure.com' asUrl ;
+		  number: 9103;
+		  yourself
 ]
 
 { #category : #accessing }
