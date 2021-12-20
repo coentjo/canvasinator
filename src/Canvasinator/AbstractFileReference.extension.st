@@ -93,13 +93,20 @@ AbstractFileReference >> gtSecondTreeFor: aView [
 			weight: 1;
 		column: 'Size' translated
 			text: [ :each | 
-				[ each humanReadableSize asString ]
+				[ | sz |
+					each isFile 
+						ifTrue: [each humanReadableSize asString]
+						ifFalse: [''] ]
 				on: FileException, FileSystemError
 				do: [ :anException | anException return: '' ] ]
 			width: 100;
 		column: 'cs' translated
 			text: [ :each | 
-				[each csFiles size asString]
+				[ | numCsFiles |
+					numCsFiles := (each csFiles size).
+					numCsFiles > 0 
+						ifTrue: [numCsFiles asString]
+						ifFalse: [''] ]
 				on: SmaCCParserError
 				do: [ :anException | self inform: anException class asString  ] ]
 			width: 100;
