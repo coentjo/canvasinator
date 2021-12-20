@@ -104,7 +104,7 @@ AbstractFileReference >> gtSecondTreeFor: aView [
 				do: [ :anException | self inform: anException class asString  ] ]
 			width: 100;
 		column: 'methods' translated
-			text: [:each | each csMethods size asString]
+			text: [:each | each csNumberOfMethods asString]
 			width: 100
 ]
 

@@ -4,6 +4,7 @@ Extension { #name : #FileReference }
 FileReference >> csMethods [
 
 	| model methodNodes |
+	self isDirectory ifTrue: [^OrderedCollection new: 42].
 	methodNodes := OrderedCollection new.
 	model := [ 
 	         CSharpParser parse: self contents.
@@ -15,6 +16,11 @@ FileReference >> csMethods [
 		         self inform: self class name , '>>csMethod:' , err asString ].
 
 	^ methodNodes
+]
+
+{ #category : #'*Canvasinator' }
+FileReference >> csNumberOfMethods [
+	^ 42
 ]
 
 { #category : #'*Canvasinator' }
