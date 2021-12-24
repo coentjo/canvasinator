@@ -1,30 +1,7 @@
 Extension { #name : #FileReference }
 
 { #category : #'*Canvasinator' }
-FileReference >> csMethods [
-
-	| model methodNodes |
-	self isDirectory ifTrue: [^OrderedCollection new: 42].
-	methodNodes := OrderedCollection new.
-	model := [ 
-	         CSharpParser parse: self contents.
-	         model
-		         allNodesOfType: CSMethodDeclarationNode
-		         do: [ :node | methodNodes add: node ] ]
-		         on: SmaCCParserError
-		         do: [ :err | 
-		         self inform: self class name , '>>csMethod:' , err asString ].
-
-	^ methodNodes
-]
-
-{ #category : #'*Canvasinator' }
-FileReference >> csNumberOfMethods [
-	^ 42
-]
-
-{ #category : #'*Canvasinator' }
-FileReference >> gtGraphForZip: aView [
+FileReference >> caGraphForZip: aView [
 
 	<gtView>
 	(self isDirectory or: [self extension ='zip']) ifFalse: [ ^ aView empty ].
@@ -64,7 +41,7 @@ FileReference >> gtGraphForZip: aView [
 ]
 
 { #category : #'*Canvasinator' }
-FileReference >> gtViewDiff2For: aView [
+FileReference >> caViewDiff2For: aView [
 	<gtView>
 	|  end |
 	end := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.solution.cs' asFileReference .
@@ -79,7 +56,7 @@ FileReference >> gtViewDiff2For: aView [
 ]
 
 { #category : #'*Canvasinator' }
-FileReference >> gtViewDiffFor: aView [
+FileReference >> caViewDiffFor: aView [
 
 	<gtView>
 	| start end |
@@ -94,6 +71,30 @@ FileReference >> gtViewDiffFor: aView [
 				  from: start contents;
 				  to: self contents;
 				  create ]
+]
+
+{ #category : #'*Canvasinator' }
+FileReference >> csMethods [
+
+	| model methodNodes |
+	self isDirectory ifTrue: [ ^ OrderedCollection new ].
+	methodNodes := OrderedCollection new.
+	model := [ 
+	         CSharpParser parse: self contents.
+	         model
+		         allNodesOfType: CSMethodDeclarationNode
+		         do: [ :node | methodNodes add: node ] ]
+		         on: SmaCCParserError
+		         do: [ :err | 
+		         self inform: self class name , '>>csMethod:' , err asString ].
+
+	^ methodNodes
+]
+
+{ #category : #'*Canvasinator' }
+FileReference >> csNumberOfMethods [
+
+	[ ^ self csMethods size ] onErrorDo: [ ^ '?' "Yes, this is a string!" ]
 ]
 
 { #category : #'*Canvasinator' }
