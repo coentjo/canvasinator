@@ -115,13 +115,6 @@ AbstractFileReference >> csFiles [
 ]
 
 { #category : #'*Canvasinator' }
-AbstractFileReference >> csMethods [
-
-	self inform: self class name asString , '>>csMethods is called on AbstractFileReference'.
-	^ OrderedCollection new.
-]
-
-{ #category : #'*Canvasinator' }
 AbstractFileReference >> findLinkUrlsIn: aText [
 	| links regExp |
 	links := OrderedCollection new .
