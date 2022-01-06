@@ -72,8 +72,7 @@ CACanvasCourse >> exampleCourse [
 
 	<gtExample>
 	<noTest>
-	^ self class
-		  baseUrl: 'https://fhict.instructure.com' asUrl ;
+	^ CACanvasCourse new
 		  number: 9103;
 		  yourself
 ]
@@ -123,7 +122,7 @@ CACanvasCourse >> gtJsonFor: aView [
 { #category : #accessing }
 CACanvasCourse >> number: aCourseNumber [
 
-	^ self baseUrl: CACanvasBase defaultBaseUrl number: aCourseNumber
+	courseNumber := aCourseNumber
 ]
 
 { #category : #accessing }
