@@ -41,17 +41,51 @@ FileReference >> caGraphForZip: aView [
 ]
 
 { #category : #'*Canvasinator' }
+FileReference >> caViewAutoDiffFor: aView [
+
+	"Search for a file with the same basename in 'startDir' and show diff"
+
+	<gtView>
+	| start collection startDir filename cr textCompareFrom notFoundMessage textCompareTo |
+	cr := Character cr asString.
+	notFoundMessage := '// No file found in ''startDir'' with same name. DIFF to empty text: '
+	                   , cr , '// ----' , cr , cr.
+	startDir := '/Users/Coen/DownloadsCanvas/cohort202108.S1-CB/wk17-turnedIn-work-AirBnB/_start/AirBeeNBee'
+		            asFileReference.
+	filename := self basename.
+	collection := startDir allChildren select: [ :f | 
+		              f basename = self basename ].
+	collection size = 1
+		ifTrue: [ 
+			start := collection at: 1.
+			textCompareFrom := start contents.
+			textCompareTo := self contents ]
+		ifFalse: [ "^ aView empty "
+			textCompareFrom := notFoundMessage.
+			textCompareTo := notFoundMessage , self contents ].
+
+	^ aView textEditor
+		  title: 'autodiff' translated;
+		  priority: 51;
+		  text: [ :anEditor | 
+			  GtEpiceaDiffStencil new
+				  from: textCompareFrom;
+				  to: textCompareTo;
+				  create ]
+]
+
+{ #category : #'*Canvasinator' }
 FileReference >> caViewDiff2For: aView [
 	<gtView>
-	|  end |
-	end := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.solution.cs' asFileReference .
+	|   start |
+	start := '/Users/Coen/DownloadsCanvas/cohort202108.S1-CB/wk17-turnedIn-work-AirBnB/_start/AirBeeNBee/ManagementApp/HoneycombInfo.cs' asFileReference .
 	^ aView textEditor
-		title: 'Diff2' translated;
+		title: 'diff HoneycombInfo' translated;
 		priority: 54;
 		text: [ :anEditor | 
 			GtEpiceaDiffStencil new
-				from: self contents;
-				to: end contents;
+				from: start contents;
+				to: self contents;
 				create ]
 ]
 
@@ -61,10 +95,10 @@ FileReference >> caViewDiffFor: aView [
 	<gtView>
 	| start end |
 	self isFile ifFalse: [ ^ aView empty ].
-	start := '/Users/Coen/DownloadsCanvas/diffBase/SteamGamesChecklistForm.start.cs'
+	start := '/Users/Coen/DownloadsCanvas/cohort202108.S1-CB/wk17-turnedIn-work-AirBnB/_start/AirBeeNBee/ManagementApp/AirBeeNBee.cs'
 		         asFileReference.
 	^ aView textEditor
-		  title: 'Diff1' translated;
+		  title: 'diff AirBeeNBee' translated;
 		  priority: 52;
 		  text: [ :anEditor | 
 			  GtEpiceaDiffStencil new
