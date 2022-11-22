@@ -122,7 +122,8 @@ CACanvasCourse >> gtJsonFor: aView [
 { #category : #accessing }
 CACanvasCourse >> number: aCourseNumber [
 
-	courseNumber := aCourseNumber
+	courseNumber := aCourseNumber.
+	^ self 
 ]
 
 { #category : #accessing }
