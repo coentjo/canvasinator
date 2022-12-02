@@ -18,7 +18,7 @@ CACanvasBase class >> askUserToken [
 	token ifNil: [ 
 		self inform:
 			'Class CACanvasBase needs a canvas Token: it is nil now.'
-			, Character cr , 'Execute this in a Playground: ' , Character cr
+			, Character cr asString, 'Execute this in a Playground: ' , Character cr asString
 			, 'CACanvasBase token: ''a1bc23d4e5''' ]
 ]
 

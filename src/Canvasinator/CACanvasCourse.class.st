@@ -39,7 +39,7 @@ CACanvasCourse >> courseInfo [
 
 	| cr |
 	cr := Character cr asString.
-	^ (self courseUrl , cr , '- - - - - - - - -', cr, self courseJson) asString asRopedText
+	^ (self courseUrl , cr , '- - - - - - - - -', cr, self courseJson asString) asString asRopedText
 ]
 
 { #category : #accessing }
@@ -103,7 +103,7 @@ CACanvasCourse >> gtCourseInfoFor: aView [
 { #category : #accessing }
 CACanvasCourse >> gtJsonFor: aView [
 	<gtView>
-	| selfIsFile selfextension selfcontents |
+	
 	"(selfIsFile and: [ (GtFileUtility mimeTypeOfExtension: selfextension) 
 		= ZnMimeType applicationJson ]) ifFalse: [ ^ aView empty ]."
 	^ aView textEditor
@@ -112,11 +112,11 @@ CACanvasCourse >> gtJsonFor: aView [
 		actionButtonIcon: BrGlamorousIcons tree 
 			action: [ :aButton | 
 				aButton phlow spawnObject: (
-					STONJSON fromString: self courseJson) ];
+					STONJSON fromString: self courseJson printString) ];
 		aptitude: [ BrGlamorousCodeEditorAptitude ];
 		styler: [ JSONParser gtStyler ];
 		text: [ (STONJSON toStringPretty: (
-			STONJSON fromString: self courseJson)) ]
+			STONJSON fromString: self courseJson)) printString]
 ]
 
 { #category : #accessing }
