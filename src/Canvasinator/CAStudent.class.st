@@ -5,7 +5,8 @@ Class {
 		'number',
 		'name',
 		'grades',
-		'moment'
+		'moment',
+		'semester'
 	],
 	#category : #Canvasinator
 }
@@ -35,6 +36,11 @@ CAStudent >> gradeFor: aString [
 { #category : #accessing }
 CAStudent >> grades [
 	^ grades ifNil: [grades := OrderedCollection new]
+]
+
+{ #category : #accessing }
+CAStudent >> inSemester: aSemesterClass [
+	semester := aSemesterClass new
 ]
 
 { #category : #accessing }
