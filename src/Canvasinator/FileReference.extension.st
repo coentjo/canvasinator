@@ -78,9 +78,9 @@ FileReference >> caViewAutoDiffFor: aView [
 FileReference >> caViewDiff2For: aView [
 	<gtView>
 	|   start |
-	start := '/Users/Coen/DownloadsCanvas/cohort202108.S1-CB/wk17-turnedIn-work-AirBnB/_start/AirBeeNBee/ManagementApp/HoneycombInfo.cs' asFileReference .
+	start := '/Users/croco2/Downloads/example_cs_to_diff_with.cs' asFileReference .
 	^ aView textEditor
-		title: 'diff HoneycombInfo' translated;
+		title: 'some diff' translated;
 		priority: 54;
 		text: [ :anEditor | 
 			GtEpiceaDiffStencil new
