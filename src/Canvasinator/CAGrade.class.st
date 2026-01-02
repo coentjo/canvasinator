@@ -1,37 +1,38 @@
 Class {
-	#name : #CAGrade,
-	#superclass : #Object,
+	#name : 'CAGrade',
+	#superclass : 'Object',
 	#instVars : [
 		'moment',
 		'course',
 		'grade',
 		'repair'
 	],
-	#category : #Canvasinator
+	#category : 'Canvasinator',
+	#package : 'Canvasinator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAGrade class >> course: aCourse grade: aGrade repair: aRepair [ 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAGrade class >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [ 
 	^ self new
 		moment: aMoment course: aCourse grade: aGrade repair: aRepair
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAGrade >> course [
 	^ course
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAGrade >> grade: aGrade repair: aRepair [ 
 	^ self new
 		moment: 'x' course: 'y' grade: aGrade repair: aRepair
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAGrade >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [ 
 	moment := aMoment.
 	course := aCourse.
@@ -39,7 +40,7 @@ CAGrade >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [
 	repair := aRepair
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAGrade >> printOn: aStream [
 	aStream 
 		nextPutAll: self course; 

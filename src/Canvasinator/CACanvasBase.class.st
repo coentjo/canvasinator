@@ -1,6 +1,6 @@
 Class {
-	#name : #CACanvasBase,
-	#superclass : #Object,
+	#name : 'CACanvasBase',
+	#superclass : 'Object',
 	#instVars : [
 		'courseNumber'
 	],
@@ -8,10 +8,12 @@ Class {
 		'token',
 		'defaultBase'
 	],
-	#category : #'Canvasinator-Canvasinator'
+	#category : 'Canvasinator-Canvasinator',
+	#package : 'Canvasinator',
+	#tag : 'Canvasinator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> askUserToken [
 
 	token := self requestToken: 'Enter your canvas token'.
@@ -22,22 +24,22 @@ CACanvasBase class >> askUserToken [
 			, 'CACanvasBase token: ''a1bc23d4e5''' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> course: aString [ 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> defaultBase [
 	^ defaultBase ifNil: [ defaultBase :=  self new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> defaultBaseUrl [
 	"if needed, replace it with your own..."
 	^ 'https://fhict.instructure.com/' 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> requestToken: aString [
 	<gtExample>
 	^ BlBlocUIManagerNotification
@@ -45,23 +47,23 @@ CACanvasBase class >> requestToken: aString [
 		with: {aString}
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> token [
 	^ token
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> token: aCanvasToken [ 
 	token ifNotNil: [self inform: 'replacing non-nil-token'].
 	token := aCanvasToken
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase class >> userToken [
 	^ token ifNil: [token := self askUserToken]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasBase >> course: aCourseNumber [
 	courseNumber := aCourseNumber
 ]

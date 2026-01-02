@@ -1,6 +1,6 @@
-Extension { #name : #FileReference }
+Extension { #name : 'FileReference' }
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> caGraphForZip: aView [
 
 	<gtView>
@@ -40,7 +40,7 @@ FileReference >> caGraphForZip: aView [
 			  view ]
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> caViewAutoDiffFor: aView [
 
 	"Search for a file with the same basename in 'startDir' and show diff"
@@ -74,7 +74,7 @@ FileReference >> caViewAutoDiffFor: aView [
 				  create ]
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> caViewDiff2For: aView [
 	<gtView>
 	|   start |
@@ -89,7 +89,7 @@ FileReference >> caViewDiff2For: aView [
 				create ]
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> caViewDiffFor: aView [
 
 	<gtView>
@@ -107,7 +107,7 @@ FileReference >> caViewDiffFor: aView [
 				  create ]
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> csMethods [
 
 	| model methodNodes |
@@ -125,13 +125,13 @@ FileReference >> csMethods [
 	^ methodNodes
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> csNumberOfMethods [
 
 	[ ^ self csMethods size ] onErrorDo: [ ^ '?' "Yes, this is a string!" ]
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 FileReference >> isBinaryProbably [
 	[ self readStreamDo: [ :s | s next: 1000 ] ]
 		on: ZnInvalidUTF8

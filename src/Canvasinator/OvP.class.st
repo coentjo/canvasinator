@@ -1,5 +1,6 @@
 Class {
-	#name : #OvP,
-	#superclass : #CASemester,
-	#category : #Canvasinator
+	#name : 'OvP',
+	#superclass : 'CASemester',
+	#category : 'Canvasinator',
+	#package : 'Canvasinator'
 }

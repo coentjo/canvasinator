@@ -1,21 +1,22 @@
 Class {
-	#name : #CACanvasCourse,
-	#superclass : #Object,
+	#name : 'CACanvasCourse',
+	#superclass : 'Object',
 	#instVars : [
 		'courseNumber',
 		'baseUrl',
 		'canvasBase',
 		'json'
 	],
-	#category : #Canvasinator
+	#category : 'Canvasinator',
+	#package : 'Canvasinator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> baseUrl: aUrl [
 	baseUrl := aUrl
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> baseUrl: aBaseUrl number: aCourseNumber [
 	^ self 
 		baseUrl: aBaseUrl asUrl;
@@ -23,18 +24,18 @@ CACanvasCourse >> baseUrl: aBaseUrl number: aCourseNumber [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> canvasBase [
 
 	^ canvasBase ifNil: [ canvasBase := CACanvasBase defaultBase ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> course: aCourseNumber [
 	courseNumber := aCourseNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> courseInfo [
 
 	| cr |
@@ -42,7 +43,7 @@ CACanvasCourse >> courseInfo [
 	^ (self courseUrl , cr , '- - - - - - - - -', cr, self courseJson asString) asString asRopedText
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> courseJson [
 
 	^ json ifNil: [ 
@@ -53,21 +54,21 @@ CACanvasCourse >> courseJson [
 			          get ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> courseUrl [
 
 	^ self urlForCourse: (courseNumber ifNil: [ 
 			 ^ 'https://fhict.instructure.com/api/v1/courses' ])
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> defaultBase [
 	| canvasBase |
 	canvasBase := CACanvasBase defaultBase.
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> exampleCourse [
 
 	<gtExample>
@@ -77,7 +78,7 @@ CACanvasCourse >> exampleCourse [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> getCourseInfo [
 | token |
 token  := CACanvasBase userToken .
@@ -89,7 +90,7 @@ ZnClient new
 	^'getcourse'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> gtCourseInfoFor: aView [
 
 	<gtView>
@@ -100,7 +101,7 @@ CACanvasCourse >> gtCourseInfoFor: aView [
 		  text: [ self courseInfo asRopedText ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> gtJsonFor: aView [
 	<gtView>
 	
@@ -119,14 +120,14 @@ CACanvasCourse >> gtJsonFor: aView [
 			STONJSON fromString: self courseJson)) printString]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> number: aCourseNumber [
 
 	courseNumber := aCourseNumber.
 	^ self 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CACanvasCourse >> urlForCourse: anObject [ 
 	^ 'https://fhict.instructure.com/courses/11531'
 ]

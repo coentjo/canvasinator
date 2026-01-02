@@ -1,25 +1,27 @@
 Class {
-	#name : #CAClass,
-	#superclass : #Object,
+	#name : 'CAClass',
+	#superclass : 'Object',
 	#instVars : [
 		'name',
 		'studs'
 	],
-	#category : #'Canvasinator-Canvasinator'
+	#category : 'Canvasinator-Canvasinator',
+	#package : 'Canvasinator',
+	#tag : 'Canvasinator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAClass class >> named: aString [
 	^ self new
 		name: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAClass >> name: aString [ 
 	name := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAClass >> student: aName nr: aNumber [
 	| stud |
 	stud := CAStudent nr: aNumber name: aName.
@@ -28,7 +30,7 @@ CAClass >> student: aName nr: aNumber [
 		  ^ stud
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAClass >> studs [
 	^ studs ifNil: [studs := OrderedCollection new]
 ]

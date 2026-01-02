@@ -1,5 +1,6 @@
 Class {
-	#name : #Sem3,
-	#superclass : #CASemester,
-	#category : #Canvasinator
+	#name : 'Sem3',
+	#superclass : 'CASemester',
+	#category : 'Canvasinator',
+	#package : 'Canvasinator'
 }

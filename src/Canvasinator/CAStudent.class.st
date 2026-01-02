@@ -1,6 +1,6 @@
 Class {
-	#name : #CAStudent,
-	#superclass : #Object,
+	#name : 'CAStudent',
+	#superclass : 'Object',
 	#instVars : [
 		'number',
 		'name',
@@ -8,10 +8,11 @@ Class {
 		'moment',
 		'semester'
 	],
-	#category : #Canvasinator
+	#category : 'Canvasinator',
+	#package : 'Canvasinator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent class >> nr: aNumber name: aName [
 	^ self new
 		number: aNumber;
@@ -19,7 +20,7 @@ CAStudent class >> nr: aNumber name: aName [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> course: aCourse grade: aGrade repair: aRepair [
 	<deprecated>
 	
@@ -27,23 +28,23 @@ CAStudent >> course: aCourse grade: aGrade repair: aRepair [
 	^ self moment: 'X' course: aCourse grade: aGrade repair: aRepair
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> gradeFor: aString [ 
 	self grades select: [ :g | 
 		'1' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> grades [
 	^ grades ifNil: [grades := OrderedCollection new]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> inSemester: aSemesterClass [
 	semester := aSemesterClass new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [
 
 	self grades add: (CAGrade
@@ -53,27 +54,27 @@ CAStudent >> moment: aMoment course: aCourse grade: aGrade repair: aRepair [
 			 repair: aRepair)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> name [
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> name: aName [
 	name := aName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> number [
 	^ number ifNil: ['??']
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> number: aNumber [
 	number := aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> printInfo [
 
 	^ String streamContents: [ :stream | 
@@ -90,7 +91,7 @@ CAStudent >> printInfo [
 				  nextPutAll: ': ''''' ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CAStudent >> printOn: aStream [
 	aStream
 			nextPutAll: (self number asString); cr;

@@ -1,1 +1,1 @@
-Package { #name : #Canvasinator }
+Package { #name : 'Canvasinator' }

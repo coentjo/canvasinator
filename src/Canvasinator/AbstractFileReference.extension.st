@@ -1,6 +1,6 @@
-Extension { #name : #AbstractFileReference }
+Extension { #name : 'AbstractFileReference' }
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> allInterestringChildren [
 	"Return all the files and folders recursively nested in the receiver"
 	
@@ -9,7 +9,7 @@ AbstractFileReference >> allInterestringChildren [
 		collect: [:entry | entry reference ]
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> caNamesFor: aView [
 	<gtView>
 	self isDirectory
@@ -59,7 +59,7 @@ AbstractFileReference >> caNamesFor: aView [
 			width: 100
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> caPortfolioFor: aView [
 	<gtView>
 	self isDirectory
@@ -109,12 +109,12 @@ AbstractFileReference >> caPortfolioFor: aView [
 			width: 100
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> csFiles [
 	^ (self allInterestringChildren select: [ :f | f extension = 'cs' ])
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> findLinkUrlsIn: aText [
 	| links regExp |
 	links := OrderedCollection new .
@@ -129,7 +129,7 @@ AbstractFileReference >> findLinkUrlsIn: aText [
 			separatedBy: [str cr] ]) asRopedText
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> gtCanvasLinkFor: aView [
 	<gtView>
 	self isFile ifFalse: [ ^ aView empty ].
@@ -158,7 +158,7 @@ AbstractFileReference >> gtCanvasLinkFor: aView [
 				 WebBrowser openOn: (self findLinkUrlsIn: self contents) ] ] 				 
 ]
 
-{ #category : #'*Canvasinator' }
+{ #category : '*Canvasinator' }
 AbstractFileReference >> numCsFiles [
 	^ (self allInterestringChildren select: [ :f | f extension = 'cs' ])  
 		size
