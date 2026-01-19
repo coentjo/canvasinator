@@ -57,3 +57,21 @@ CAPortfolioAssessmentMoment >> lo: anInteger assess: anObject note: aString [
 { #category : 'accessing' }
 CAPortfolioAssessmentMoment >> note: aString [ 
 ]
+
+{ #category : 'as yet unclassified' }
+CAPortfolioAssessmentMoment >> testSimpleMoment [
+	<gtExample>
+
+^	CAPortfolioAssessmentMoment new
+	lo: 1 assess: Proficient note: 'according to colleague X'; 
+	
+	lo: 2 assess: Beginning note: 'well, maybe?'  ;
+	
+	lo: 3 assess: Orienting note: ''  ;
+	lo: 4 assess: Beginning  note: ''  ;
+	lo: 5 assess: Orienting   note: ''  ;
+	lo: 6 assess: Orienting note: ''  ;
+	lo: 7 assess: Beginning   note: ''  ;
+	lo: 8 assess: Undefined   note: ''  ;
+	yourself
+]
