@@ -17,7 +17,7 @@ CAPortfolioAssessmentMoment >> assessItems [
 CAPortfolioAssessmentMoment >> gtAssessItemsFor: aView [
 	<gtView>
 	^ aView columnedTree
-		title: 'Items';
+		title: 'Assess';
 		priority: 1;
 		items: [ self assessItems associations sort: (#key collatedBy: #asString) ];
 		children: [ :each | 
@@ -48,8 +48,10 @@ CAPortfolioAssessmentMoment >> lo: anInteger assess: anAssessItem [
 { #category : 'accessing' }
 CAPortfolioAssessmentMoment >> lo: anInteger assess: anObject note: aString [ 
 	^ self 
-		lo: anInteger assess: anObject;
-		note: aString
+		lo: anInteger assess: 
+			(anObject new
+				note: aString;
+				yourself)
 ]
 
 { #category : 'accessing' }

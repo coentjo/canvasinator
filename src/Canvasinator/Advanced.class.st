@@ -4,3 +4,8 @@ Class {
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
 }
+
+{ #category : 'as yet unclassified' }
+Advanced >> color [
+	^ Color green muchDarker
+]
