@@ -9,3 +9,8 @@ Class {
 Proficient >> color [
 	^ Color green
 ]
+
+{ #category : 'as yet unclassified' }
+Proficient >> numValue [
+	^ 3
+]

@@ -9,3 +9,8 @@ Class {
 Advanced >> color [
 	^ Color green muchDarker
 ]
+
+{ #category : 'as yet unclassified' }
+Advanced >> numValue [
+	^ 4
+]

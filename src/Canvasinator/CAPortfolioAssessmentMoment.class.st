@@ -28,8 +28,10 @@ CAPortfolioAssessmentMoment >> gtAssessItemsFor: aView [
 						ifTrue: [ each value collectWithIndex: [ :x :i | i -> x ] ]
 						ifFalse: [ #() ] ] ];
 		column: 'Key' text: [ :assoc | assoc key ];
+"		column: 'Value' text: [ :assoc | assoc value ] weight: 3; "
 		column: 'Value' text: [ :assoc | assoc value ] weight: 3;
-		send: [ :assoc | assoc value  ].
+		column: 'Value' text: [ :assoc | assoc value numValue] weight: 3;
+		send: [ :assoc | assoc value gtLiveFor: aView ].
 		
 	"Implementation note: association sorting uses #collatedBy: to avoid a 'Symbol DNU value: value: error'"
 ]

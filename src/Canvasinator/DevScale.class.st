@@ -72,3 +72,9 @@ DevScale >> gtLiveFor: aView [
 DevScale >> note: aString [ 
 	note := aString
 ]
+
+{ #category : 'as yet unclassified' }
+DevScale >> numValue [
+
+	^ self subclassResponsibility
+]

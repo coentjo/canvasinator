@@ -9,3 +9,8 @@ Class {
 Beginning >> color [
 	^Color yellow darker
 ]
+
+{ #category : 'as yet unclassified' }
+Beginning >> numValue [
+	^ 2
+]
