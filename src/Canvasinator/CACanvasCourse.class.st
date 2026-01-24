@@ -2,132 +2,85 @@ Class {
 	#name : 'CACanvasCourse',
 	#superclass : 'Object',
 	#instVars : [
-		'courseNumber',
-		'baseUrl',
-		'canvasBase',
-		'json'
+		'rawData',
+		'token'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
 }
 
-{ #category : 'accessing' }
-CACanvasCourse >> baseUrl: aUrl [
-	baseUrl := aUrl
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> assignmentIds [
+	^ {269004 . 269014 . 269021 . 269025}
 ]
 
 { #category : 'accessing' }
-CACanvasCourse >> baseUrl: aBaseUrl number: aCourseNumber [
-	^ self 
-		baseUrl: aBaseUrl asUrl;
-		number: aCourseNumber
-		yourself
+CACanvasCourse >> assignmentWithId: assignmentId [
+	| reply dictionary url |
+	url := 'https://fhict.instructure.com/api/v1/courses/' , self id
+			, '/assignments/', assignmentId asString.	"<- show srubruc definitions"
+	reply := ZnClient new
+			url: url;
+			headerAt: 'Authorization' put: ' Bearer ' , token;
+			get.
+	dictionary := STON fromString: reply.
+	^ CACanvasAssignment new rawData: dictionary
 ]
 
-{ #category : 'accessing' }
-CACanvasCourse >> canvasBase [
-
-	^ canvasBase ifNil: [ canvasBase := CACanvasBase defaultBase ]
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> assignments [
+	^ self assignmentIds 
+		collect: [ :id | self assignmentWithId: id]
 ]
 
-{ #category : 'accessing' }
-CACanvasCourse >> course: aCourseNumber [
-	courseNumber := aCourseNumber
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> course_code [
+	^ rawData at: 'course_code'
 ]
 
-{ #category : 'accessing' }
-CACanvasCourse >> courseInfo [
-
-	| cr |
-	cr := Character cr asString.
-	^ (self courseUrl , cr , '- - - - - - - - -', cr, self courseJson asString) asString asRopedText
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> courseJson [
-
-	^ json ifNil: [ 
-		  json := ZnClient new
-			          url: self courseUrl ;
-			          headerAt: 'Authorization'
-			          put: ' Bearer ' , CACanvasBase userToken;
-			          get ]
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> courseUrl [
-
-	^ self urlForCourse: (courseNumber ifNil: [ 
-			 ^ 'https://fhict.instructure.com/api/v1/courses' ])
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> defaultBase [
-	| canvasBase |
-	canvasBase := CACanvasBase defaultBase.
-	^ self
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> exampleCourse [
-
-	<gtExample>
-	<noTest>
-	^ CACanvasCourse new
-		  number: 9103;
-		  yourself
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> getCourseInfo [
-| token |
-token  := CACanvasBase userToken .
-ZnClient new
-	url: 'https://fhict.instructure.com/api/v1/courses';
-	headerAt: 'Authorization' put: ' Bearer ', token;
-	get. 
-	
-	^'getcourse'
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> gtCourseInfoFor: aView [
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtAsignmentIDsFor: aView [
 
 	<gtView>
-	^ aView textEditor
-		  title: 'Course';
-		  priority: 110;
-		  aptitude: BrGlamorousCodeEditorAptitude;
-		  text: [ self courseInfo asRopedText ]
+	^ aView list
+		title: 'assignmentIDs';
+		priority: 15;
+		items: self assignmentIds
+		
 ]
 
-{ #category : 'accessing' }
-CACanvasCourse >> gtJsonFor: aView [
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtAsignmentsFor: aView [
+
 	<gtView>
-	
-	"(selfIsFile and: [ (GtFileUtility mimeTypeOfExtension: selfextension) 
-		= ZnMimeType applicationJson ]) ifFalse: [ ^ aView empty ]."
-	^ aView textEditor
-		title: 'JSON';
-		priority: 120;
-		actionButtonIcon: BrGlamorousIcons tree 
-			action: [ :aButton | 
-				aButton phlow spawnObject: (
-					STONJSON fromString: self courseJson printString) ];
-		aptitude: [ BrGlamorousCodeEditorAptitude ];
-		styler: [ JSONParser gtStyler ];
-		text: [ (STONJSON toStringPretty: (
-			STONJSON fromString: self courseJson)) printString]
+	^ aView list
+		title: 'assignments';
+		priority: 10;
+		items: self assignments
+		
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> id [
+	^ (rawData at: 'id') asString
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> printOn: aStream [
+	aStream
+		nextPutAll: 'Canvas Course: ';
+		nextPutAll: self course_code;
+		cr;
+		nextPutAll: 'id: ';
+		nextPutAll: self id
 ]
 
 { #category : 'accessing' }
-CACanvasCourse >> number: aCourseNumber [
-
-	courseNumber := aCourseNumber.
-	^ self 
+CACanvasCourse >> rawData: dictionary [
+	rawData := dictionary
 ]
 
 { #category : 'accessing' }
-CACanvasCourse >> urlForCourse: anObject [ 
-	^ 'https://fhict.instructure.com/courses/11531'
+CACanvasCourse >> token: aToken [ 
+	token := aToken
 ]
