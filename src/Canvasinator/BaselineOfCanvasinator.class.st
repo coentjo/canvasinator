@@ -8,7 +8,9 @@ Class {
 { #category : 'baselines' }
 BaselineOfCanvasinator >> baseline: spec [
 	<baseline>
-	spec for: #common do: [ spec package: 'Canvasinator' ]
+	spec for: #common do: [ 
+		spec package: #Canvasinator 
+	]
 ]
 
 { #category : 'as yet unclassified' }
