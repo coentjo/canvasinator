@@ -6,15 +6,7 @@ Class {
 }
 
 { #category : 'baselines' }
-BaselineOfCanvasinator >> baseline: spec [
-	<baseline>
-	spec for: #common do: [ 
-		spec package: #Canvasinator 
-	]
-]
-
-{ #category : 'as yet unclassified' }
-BaselineOfCanvasinator >> loadLepiter [
+BaselineOfCanvasinator class >> loadLepiter [
 	| currentProperties |
 	currentProperties := LeDatabasesRegistry defaultLogicalDatabase properties.
 	currentProperties
@@ -27,4 +19,12 @@ BaselineOfCanvasinator >> loadLepiter [
 	LeDatabasesRegistry default defaultLogicalDatabase reload.
 	
 
+]
+
+{ #category : 'baselines' }
+BaselineOfCanvasinator >> baseline: spec [
+	<baseline>
+	spec for: #common do: [ 
+		spec package: #Canvasinator 
+	]
 ]
