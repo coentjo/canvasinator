@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'rawData',
-		'token'
+		'token',
+		'assignmentIds'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -11,7 +12,12 @@ Class {
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> assignmentIds [
-	^ {269004 . 269014 . 269021 . 269025}
+	^ assignmentIds
+]
+
+{ #category : 'accessing' }
+CACanvasCourse >> assignmentIds: anObject [ 
+	assignmentIds := anObject
 ]
 
 { #category : 'accessing' }
