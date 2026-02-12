@@ -67,8 +67,41 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> gtPeopleFor: aView [
+	<gtView>
+	^ aView list
+		title: 'people';
+		priority: 15;
+		items: self people
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> id [
 	^ (rawData at: 'id') asString
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> people [
+	"people (only 10??)"
+
+	"courseId := 15575 asString."
+
+	"example: ""https://fhict.instructure.com/courses/15575/users"
+
+	| reply rawPersons |
+	reply := ZnClient new
+			url: 'https://fhict.instructure.com/' , 'api/v1/' , 'courses/' , self id asString
+					, '/users' , '?per_page=110';
+			headerAt: 'Authorization' put: ' Bearer ' , token;
+			get.
+	rawData := STON fromString: reply.
+	rawPersons := rawData
+			collect: [ :personDict | 
+				'[[202602_' , (personDict at: 'sortable_name') , '_'
+					, (personDict at: 'login_id' ifAbsent: 'y') , ']]' ].
+	"Character lf asString join: rawPersons "
+	^ rawPersons
+	
 ]
 
 { #category : 'as yet unclassified' }
