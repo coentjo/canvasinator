@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'rawData',
 		'token',
-		'assignmentIds'
+		'assignmentIds',
+		'courseId'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -37,6 +38,11 @@ CACanvasCourse >> assignmentWithId: assignmentId [
 CACanvasCourse >> assignments [
 	^ self assignmentIds 
 		collect: [ :id | self assignmentWithId: id]
+]
+
+{ #category : 'accessing' }
+CACanvasCourse >> courseId: aCourseId [ 
+	courseId := aCourseId
 ]
 
 { #category : 'as yet unclassified' }
@@ -77,30 +83,30 @@ CACanvasCourse >> gtPeopleFor: aView [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> id [
-	^ (rawData at: 'id') asString
+	^ courseId asString
 ]
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> people [
-	"people (only 10??)"
+	"people (only 110??)"
 
 	"courseId := 15575 asString."
 
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
-	| reply rawPersons |
+	| reply rawPersons rawDatax|
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' , 'courses/' , self id asString
 					, '/users' , '?per_page=110';
 			headerAt: 'Authorization' put: ' Bearer ' , token;
 			get.
-	rawData := STON fromString: reply.
-	rawPersons := rawData
+	rawDatax := STON fromString: reply.
+	rawPersons := rawDatax
 			collect: [ :personDict | 
 				'[[202602_' , (personDict at: 'sortable_name') , '_'
 					, (personDict at: 'login_id' ifAbsent: 'y') , ']]' ].
-	"Character lf asString join: rawPersons "
-	^ rawPersons
+	^ { Character lf asString join: rawPersons }
+"	^ rawPersons"
 	
 ]
 
