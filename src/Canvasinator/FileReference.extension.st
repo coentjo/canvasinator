@@ -92,8 +92,8 @@ FileReference >> caViewDiff2For: aView [
 { #category : '*Canvasinator' }
 FileReference >> caViewDiffFor: aView [
 
-	<gtView>
-	| start end |
+	"<gtView>"
+	| start |
 	self isFile ifFalse: [ ^ aView empty ].
 	start := '/Users/Coen/DownloadsCanvas/cohort202108.S1-CB/wk17-turnedIn-work-AirBnB/_start/AirBeeNBee/ManagementApp/AirBeeNBee.cs'
 		         asFileReference.

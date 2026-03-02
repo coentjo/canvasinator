@@ -11,6 +11,14 @@ Class {
 	#package : 'Canvasinator'
 }
 
+{ #category : 'accessing' }
+CACanvasCourse class >> courseId: aCourseId [ 
+	^ self new
+		courseId: aCourseId;
+		loadCourseInfo;
+		yourself
+]
+
 { #category : 'as yet unclassified' }
 CACanvasCourse >> assignmentIds [
 	^ assignmentIds
@@ -42,7 +50,7 @@ CACanvasCourse >> assignments [
 
 { #category : 'accessing' }
 CACanvasCourse >> courseId: aCourseId [ 
-	courseId := aCourseId
+	courseId := aCourseId asString
 ]
 
 { #category : 'as yet unclassified' }
@@ -86,6 +94,17 @@ CACanvasCourse >> id [
 	^ courseId asString
 ]
 
+{ #category : 'accessing' }
+CACanvasCourse >> loadCourseInfo [
+	| reply |
+	reply := ZnClient new 
+	url: 'https://fhict.instructure.com/api/v1/courses/', courseId;
+	headerAt: 'Authorization' put: ' Bearer ', self token;
+	get. 
+	rawData := STON fromString: reply.
+
+]
+
 { #category : 'as yet unclassified' }
 CACanvasCourse >> people [
 	"people (only 110??)"
@@ -123,6 +142,18 @@ CACanvasCourse >> printOn: aStream [
 { #category : 'accessing' }
 CACanvasCourse >> rawData: dictionary [
 	rawData := dictionary
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> token [
+
+| canvasTokenFile |
+canvasTokenFile := (FileLocator home / 'tokens' / 'token_canvas.txt').
+"canvasTokenFile := '~/token_canvas.txt' asFileReference."
+^ canvasTokenFile
+	ifExists: [ canvasTokenFile contents.
+]
+	ifAbsent: [ self inform: 'Canvas token needed...'; halt ]
 ]
 
 { #category : 'accessing' }
