@@ -9,6 +9,13 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+CACanvasAssignment class >> on: rawAssignmentData [
+	^ self new 
+		rawData: rawAssignmentData;
+		yourself
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasAssignment >> due_at [
 	^ rawData at: 'due_at'
 ]

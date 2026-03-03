@@ -16,23 +16,33 @@ CACanvasPerson class >> on: personRawData [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasPerson >> printOn: aStream [
+CACanvasPerson >> iAccountNumber [
 	| iAccount |
 	iAccount := rawData at: 'login_id' ifAbsent: 'I??????@fhict.nl'.
-	iAccount := ((iAccount splitOn: '@') at: 1) , ''.	"
-				'202602.' , (rawData at: 'sortable_name') , '_'
-					, iAccount , ']]'.
-"
+	^ ((iAccount splitOn: '@') at: 1).
+]
 
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> printOn: aStream [
 	aStream
-		nextPutAll: iAccount;
+		nextPutAll: self iAccountNumber;
 		nextPutAll: '.';
-		nextPutAll: (rawData at: 'sortable_name');
+		nextPutAll: self sortable_name;
 		nextPutAll: '.';
-		nextPutAll: '202602' "semester-aanduiding: YYYY02 of YYYY08"
+		nextPutAll: self semesterAanduiding	"semester-aanduiding: YYYY02 of YYYY08"
 ]
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> rawData: personRawData [ 
 	rawData := personRawData
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> semesterAanduiding [
+	^ '202602'
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> sortable_name [
+	^ rawData at: 'sortable_name'
 ]

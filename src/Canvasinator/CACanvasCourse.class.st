@@ -18,6 +18,25 @@ CACanvasCourse class >> courseId: aCourseId [
 		yourself
 ]
 
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> announcements [
+	"remark: limited nr of people (?per_page=110)"
+
+	"courseId := 15575 asString."
+	"example: ""https://fhict.instructure.com/courses/15575/users"
+
+	| reply rawDatax|
+	reply := ZnClient new
+			url: 'https://fhict.instructure.com/' , 'api/v1/' 
+				, 'courses/' , self id asString
+				, '/announcements';
+			headerAt: 'Authorization' put: ' Bearer ' , self token;
+			get.
+	rawDatax := STON fromString: reply.
+	^ rawDatax "collect: [ :each | CACanvasPerson on: each ]"
+	
+]
+
 { #category : 'accessing' }
 CACanvasCourse >> assignmentWithId: assignmentId [
 	| reply dictionary url |
@@ -31,6 +50,24 @@ CACanvasCourse >> assignmentWithId: assignmentId [
 	^ CACanvasAssignment new rawData: dictionary
 ]
 
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> assignments [
+	"remark: limited nr of people (?per_page=110)"
+
+	"courseId := 15575 asString."
+	"example: ""https://fhict.instructure.com/courses/15575/users"
+
+	| reply rawDatax|
+	reply := ZnClient new
+			url: 'https://fhict.instructure.com/' , 'api/v1/' 
+				, 'courses/' , self id asString
+				, '/assignments';
+			headerAt: 'Authorization' put: ' Bearer ' , self token;
+			get.
+	rawDatax := STON fromString: reply.
+	^ rawDatax collect: [ :each | CACanvasAssignment on: each ]
+]
+
 { #category : 'accessing' }
 CACanvasCourse >> courseId: aCourseId [ 
 	courseId := aCourseId asString
@@ -39,6 +76,17 @@ CACanvasCourse >> courseId: aCourseId [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> course_code [
 	^ rawData at: 'course_code'
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtAnnouncementsFor: aView [
+
+	<gtView>
+	^ aView list
+		title: 'announcements';
+		priority: 17;
+		items: { 'self announcements' }
+		
 ]
 
 { #category : 'as yet unclassified' }
@@ -57,9 +105,10 @@ CACanvasCourse >> gtPeopleFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'people';
-		priority: 15;
+		priority: 5;
 		items: self people;
-		column: 'i' text: [ :each | each printString asRopedText ] 
+		column: 'i-account' text: [ :each | each iAccountNumber ] width: 75;
+		column: 'i' text: [ :each | each printString asRopedText ].
 ]
 
 { #category : 'as yet unclassified' }
