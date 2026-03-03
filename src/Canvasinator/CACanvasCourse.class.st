@@ -55,10 +55,11 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtPeopleFor: aView [
 	<gtView>
-	^ aView list
+	^ aView columnedList
 		title: 'people';
 		priority: 15;
-		items: self people
+		items: self people;
+		column: 'i' text: [ :each | each printString asRopedText ] 
 ]
 
 { #category : 'as yet unclassified' }
@@ -82,21 +83,18 @@ CACanvasCourse >> people [
 	"remark: limited nr of people (?per_page=110)"
 
 	"courseId := 15575 asString."
-
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
-	| reply rawPersons rawDatax|
+	| reply rawDatax nrPerPage|
+	nrPerPage := 110 asString.
 	reply := ZnClient new
-			url: 'https://fhict.instructure.com/' , 'api/v1/' , 'courses/' , self id asString
-					, '/users' , '?per_page=110';
+			url: 'https://fhict.instructure.com/' , 'api/v1/' 
+				, 'courses/' , self id asString
+				, '/users?per_page=' , nrPerPage;
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
-	rawPersons := rawDatax
-			collect: [ :personDict | 
-				'[[202602_' , (personDict at: 'sortable_name') , '_'
-					, (personDict at: 'login_id' ifAbsent: 'y') , ']]' ].
-	^ rawPersons
+	^ rawDatax collect: [ :each | CACanvasPerson on: each ]
 	
 ]
 
