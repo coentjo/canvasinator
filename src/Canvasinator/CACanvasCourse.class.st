@@ -58,7 +58,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView list
 		title: 'people';
 		priority: 15;
-		items: (self people onErrorDo: [:err | {err asString}])
+		items: self people
 ]
 
 { #category : 'as yet unclassified' }
@@ -89,15 +89,14 @@ CACanvasCourse >> people [
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' , 'courses/' , self id asString
 					, '/users' , '?per_page=110';
-			headerAt: 'Authorization' put: ' Bearer ' , token;
+			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
 	rawPersons := rawDatax
 			collect: [ :personDict | 
 				'[[202602_' , (personDict at: 'sortable_name') , '_'
 					, (personDict at: 'login_id' ifAbsent: 'y') , ']]' ].
-	^ { Character lf asString join: rawPersons }
-"	^ rawPersons"
+	^ rawPersons
 	
 ]
 
