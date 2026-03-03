@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'rawData',
 		'token',
-		'assignmentIds',
 		'courseId'
 	],
 	#category : 'Canvasinator',
@@ -19,33 +18,17 @@ CACanvasCourse class >> courseId: aCourseId [
 		yourself
 ]
 
-{ #category : 'as yet unclassified' }
-CACanvasCourse >> assignmentIds [
-	^ assignmentIds
-]
-
-{ #category : 'accessing' }
-CACanvasCourse >> assignmentIds: anObject [ 
-	assignmentIds := anObject
-]
-
 { #category : 'accessing' }
 CACanvasCourse >> assignmentWithId: assignmentId [
 	| reply dictionary url |
 	url := 'https://fhict.instructure.com/api/v1/courses/' , self id
-			, '/assignments/', assignmentId asString.	"<- show srubruc definitions"
+			, '/assignments/', assignmentId asString.	"<- show srubric definitions"
 	reply := ZnClient new
 			url: url;
 			headerAt: 'Authorization' put: ' Bearer ' , token;
 			get.
 	dictionary := STON fromString: reply.
 	^ CACanvasAssignment new rawData: dictionary
-]
-
-{ #category : 'as yet unclassified' }
-CACanvasCourse >> assignments [
-	^ self assignmentIds 
-		collect: [ :id | self assignmentWithId: id]
 ]
 
 { #category : 'accessing' }
@@ -56,17 +39,6 @@ CACanvasCourse >> courseId: aCourseId [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> course_code [
 	^ rawData at: 'course_code'
-]
-
-{ #category : 'as yet unclassified' }
-CACanvasCourse >> gtAsignmentIDsFor: aView [
-
-	<gtView>
-	^ aView list
-		title: 'assignmentIDs';
-		priority: 15;
-		items: self assignmentIds
-		
 ]
 
 { #category : 'as yet unclassified' }
@@ -86,7 +58,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView list
 		title: 'people';
 		priority: 15;
-		items: self people
+		items: (self people onErrorDo: [:err | {err asString}])
 ]
 
 { #category : 'as yet unclassified' }
@@ -107,7 +79,7 @@ CACanvasCourse >> loadCourseInfo [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> people [
-	"people (only 110??)"
+	"remark: limited nr of people (?per_page=110)"
 
 	"courseId := 15575 asString."
 
