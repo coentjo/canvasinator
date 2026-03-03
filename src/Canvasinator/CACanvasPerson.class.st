@@ -26,10 +26,10 @@ CACanvasPerson >> printOn: aStream [
 
 	aStream
 		nextPutAll: iAccount;
-		nextPutAll: ' - ';
+		nextPutAll: '.';
 		nextPutAll: (rawData at: 'sortable_name');
-		nextPutAll: ' - ';
-		nextPutAll: '202602.'
+		nextPutAll: '.';
+		nextPutAll: '202602' "semester-aanduiding: YYYY02 of YYYY08"
 ]
 
 { #category : 'as yet unclassified' }
