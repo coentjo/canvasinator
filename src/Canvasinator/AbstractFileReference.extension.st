@@ -60,56 +60,6 @@ AbstractFileReference >> caNamesFor: aView [
 ]
 
 { #category : '*Canvasinator' }
-AbstractFileReference >> caPortfolioFor: aView [
-	<gtView>
-	self isDirectory
-		ifFalse: [ ^ aView empty ].
-	^ aView columnedTree
-		title: 'Portfoliox' translated;
-		priority: 13;
-		items: [ self gtChildren ];
-		children: [ :each | each gtChildren ];
-		column: 'Name' translated 
-			icon: [ :each | 
-				| anIcon aName aContainer |
-				anIcon := each isDirectory
-					ifTrue: [ BrGlamorousIcons folder asElement ]
-					ifFalse: [ BrGlamorousIcons file asElement ].
-				
-				aName := GtPhlowUtility newItemLabel.
-				aName text: each basename asString.
-				
-				aContainer := BrHorizontalPane new
-					alignCenter;
-					fitContent.
-				
-				aContainer addChild: anIcon; addChild: aName ]
-			weight: 1;
-		column: 'Size' translated
-			text: [ :each | 
-				[ | sz |
-					each isFile 
-						ifTrue: [each humanReadableSize asString]
-						ifFalse: [''] ]
-				on: FileException, FileSystemError
-				do: [ :anException | anException return: '' ] ]
-			width: 100;
-		column: 'cs' translated
-			text: [ :each | 
-				[ | numCsFiles |
-					numCsFiles := (each csFiles size).
-					numCsFiles > 0 
-						ifTrue: [numCsFiles asString]
-						ifFalse: [''] ]
-				on: SmaCCParserError
-				do: [ :anException | self inform: anException class asString  ] ]
-			width: 100;
-		column: 'methods' translated
-			text: [:each | each csNumberOfMethods asString]
-			width: 100
-]
-
-{ #category : '*Canvasinator' }
 AbstractFileReference >> csFiles [
 	^ (self allInterestringChildren select: [ :f | f extension = 'cs' ])
 ]

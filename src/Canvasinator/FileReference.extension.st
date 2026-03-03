@@ -41,40 +41,6 @@ FileReference >> caGraphForZip: aView [
 ]
 
 { #category : '*Canvasinator' }
-FileReference >> caViewAutoDiffFor: aView [
-
-	"Search for a file with the same basename in 'startDir' and show diff"
-
-	<gtView>
-	| start collection startDir filename cr textCompareFrom notFoundMessage textCompareTo |
-	cr := Character cr asString.
-	notFoundMessage := '// No file found in ''startDir'' with same name. DIFF to empty text: '
-	                   , cr , '// ----' , cr , cr.
-	startDir := '/Users/Coen/DownloadsCanvas/cohort202108.S1-CB/wk17-turnedIn-work-AirBnB/_start/AirBeeNBee'
-		            asFileReference.
-	filename := self basename.
-	collection := startDir allChildren select: [ :f | 
-		              f basename = self basename ].
-	collection size = 1
-		ifTrue: [ 
-			start := collection at: 1.
-			textCompareFrom := start contents.
-			textCompareTo := self contents ]
-		ifFalse: [ "^ aView empty "
-			textCompareFrom := notFoundMessage.
-			textCompareTo := notFoundMessage , self contents ].
-
-	^ aView textEditor
-		  title: 'autodiff' translated;
-		  priority: 51;
-		  text: [ :anEditor | 
-			  GtEpiceaDiffStencil new
-				  from: textCompareFrom;
-				  to: textCompareTo;
-				  create ]
-]
-
-{ #category : '*Canvasinator' }
 FileReference >> caViewDiff2For: aView [
 	<gtView>
 	|   start |
