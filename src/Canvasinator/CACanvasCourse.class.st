@@ -93,10 +93,14 @@ CACanvasCourse >> gtAnnouncementsFor: aView [
 CACanvasCourse >> gtAsignmentsFor: aView [
 
 	<gtView>
-	^ aView list
+	^ aView columnedList
 		title: 'assignments';
 		priority: 10;
-		items: self assignments
+		items: self assignments;
+		column: 'name' text: [ :each | each name ];
+		column: 'date' text: [ :each | each date ];
+		column: 'obj' text: [ :each | each asString ].
+		
 		
 ]
 

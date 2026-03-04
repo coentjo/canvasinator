@@ -16,6 +16,11 @@ CACanvasAssignment class >> on: rawAssignmentData [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasAssignment >> date [
+	^ '1-1'
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasAssignment >> due_at [
 	^ rawData at: 'due_at'
 ]
