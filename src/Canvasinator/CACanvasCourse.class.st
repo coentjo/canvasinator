@@ -21,6 +21,11 @@ CACanvasCourse class >> courseId: aCourseId fromSnippet: aSnippet [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> allPages [
+	^ self lepDatabase pages
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> announcements [
 	"remark: limited nr of people (?per_page=110)"
 
@@ -122,9 +127,8 @@ CACanvasCourse >> gtPeopleFor: aView [
 		priority: 5;
 		items: self people;
 		column: 'nr'
-			text: [ :each | 
-				counter := counter + 1.
-				counter ]
+			text: [ :eachItem :eachIndex | 
+				eachIndex asRopedText foreground: Color gray ]
 			width: 75;
 		column: 'name' text: [ :each | each sortable_name asRopedText ];
 		column: 'page'
@@ -141,38 +145,6 @@ CACanvasCourse >> gtPeopleFor: aView [
 					ifNone: [ each iAccountNumber ]	"asRopedText" ];
 		send: [ :each | each value ]
 
-]
-
-{ #category : 'as yet unclassified' }
-CACanvasCourse >> gtPeopleLepFor: aView [
-	<gtView>
-	| counter |
-	counter := 0.
-	^ aView columnedList
-		title: 'pages';
-		priority: 8;
-		items: self people;
-"		items: [ (self lepDatabase pages sorted: [ :a :b | a title < b title ])
-				collect: [ :page | page" "title" "-> (self pageFileReference: page) ""] ];"
-		column: 'name' text: [ :each | each sortable_name asRopedText ];
-		column: 'page'
-			text: [ :each " 
-		column: 'Target'
-			text: [ :anExplicitLink | anExplicitLink targetReference description ];
-		column: 'Status'
-			text: [ :anExplicitLink | 
-				anExplicitLink targetReference status
-					in: [ :aStatus | aStatus label asRopedText foreground: aStatus color ] ]
-			width: 100" | 
-				self lepDatabase pages
-					detect: [ :page | page title matches: '*' , each iAccountNumber , '@*' ]
-					ifNone: [ each iAccountNumber ]	"asRopedText" ];
-		column: 'Title' text: [ :each | each key ];
-		column: 'File' text: [ :each | each value basename ];
-		send: [ :each | each value ]
-			"		column: 'i-account'
-			text: [ :each | each iAccountNumber ]
-			width: 75;"	"copied from >>gtNameMappingFor: aView"	"Provide a page title -> filename view"
 ]
 
 { #category : 'as yet unclassified' }
@@ -222,7 +194,7 @@ CACanvasCourse >> people [
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
-	^ rawDatax collect: [ :each | CACanvasPerson on: each ]
+	^ rawDatax collect: [ :each | CACanvasPerson on: each withParent: self]
 	
 ]
 
