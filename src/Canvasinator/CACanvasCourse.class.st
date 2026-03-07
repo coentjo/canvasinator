@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'rawData',
 		'token',
-		'courseId'
+		'courseId',
+		'fromSnippet'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -78,6 +79,12 @@ CACanvasCourse >> course_code [
 	^ rawData at: 'course_code'
 ]
 
+{ #category : 'accessing' }
+CACanvasCourse >> fromSnippet: thisSnippet [ 
+	"store snippet for now, although at this moment I only need the database, which I can get from this snippet"
+	fromSnippet := thisSnippet
+]
+
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtAnnouncementsFor: aView [
 
@@ -113,15 +120,37 @@ CACanvasCourse >> gtPeopleFor: aView [
 		title: 'people';
 		priority: 5;
 		items: self people;
-		column: 'nr' text: [ :each | counter := counter + 1 . counter ] width: 75;
-		column: 'i-account' text: [ :each | each iAccountNumber ] width: 75;
-		column: 'name' text: [ :each | each sortable_name ];
-		column: 'i' text: [ :each | each printString asRopedText ].
+		column: 'nr'
+			text: [ :each | 
+				counter := counter + 1.
+				counter ]
+			width: 75;
+		column: 'i-account'
+			text: [ :each | each iAccountNumber ]
+			width: 75;
+		column: 'name'
+			text: [ :each | (each sortable_name) asRopedText ];
+		column: 'x' text: [ : each | self lepDatabase pages detect: [ :page | page title matches: '*',each iAccountNumber,'@*' ]
+ifNone: [ 'x']]" 
+		column: 'Origin'
+			text: [ :anExplicitLink | anExplicitLink originReference description ];
+		column: 'Target'
+			text: [ :anExplicitLink | anExplicitLink targetReference description ];
+		column: 'Status'
+			text: [ :anExplicitLink | 
+				anExplicitLink targetReference status
+					in: [ :aStatus | aStatus label asRopedText foreground: aStatus color ] ]
+			width: 100"
 ]
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> id [
 	^ courseId asString
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> lepDatabase [
+	^ fromSnippet database
 ]
 
 { #category : 'accessing' }
@@ -136,6 +165,11 @@ CACanvasCourse >> loadCourseInfo [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> pageFor: anIAccountNr [
+	self lepDatabase pages detect: [ :p | p title asString startsWith: anIAccountNr ] ifNone: [ '-' ]
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> people [
 	"remark: limited nr of people (?per_page=110)"
 
@@ -143,7 +177,7 @@ CACanvasCourse >> people [
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
 	| reply rawDatax nrPerPage|
-	nrPerPage := 200 asString.
+	nrPerPage := 150 asString.
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
 				, 'courses/' , self id asString
