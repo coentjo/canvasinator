@@ -99,7 +99,7 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 		items: self assignments;
 		column: 'name' text: [ :each | each name ];
 		column: 'date' text: [ :each | each date ];
-		column: 'obj' text: [ :each | each asString ].
+		column: 'obj' text: [ :each | [each asString] onErrorDo: ['_'] ].
 		
 		
 ]
@@ -107,11 +107,15 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtPeopleFor: aView [
 	<gtView>
+	| counter |
+	counter := 0.
 	^ aView columnedList
 		title: 'people';
 		priority: 5;
 		items: self people;
+		column: 'nr' text: [ :each | counter := counter + 1 . counter ] width: 75;
 		column: 'i-account' text: [ :each | each iAccountNumber ] width: 75;
+		column: 'name' text: [ :each | each sortable_name ];
 		column: 'i' text: [ :each | each printString asRopedText ].
 ]
 
@@ -139,7 +143,7 @@ CACanvasCourse >> people [
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
 	| reply rawDatax nrPerPage|
-	nrPerPage := 110 asString.
+	nrPerPage := 200 asString.
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
 				, 'courses/' , self id asString
