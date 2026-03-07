@@ -12,9 +12,10 @@ Class {
 }
 
 { #category : 'accessing' }
-CACanvasCourse class >> courseId: aCourseId [ 
+CACanvasCourse class >> courseId: aCourseId fromSnippet: aSnippet [ 
 	^ self new
 		courseId: aCourseId;
+		fromSnippet: aSnippet;
 		loadCourseInfo;
 		yourself
 ]
@@ -125,22 +126,53 @@ CACanvasCourse >> gtPeopleFor: aView [
 				counter := counter + 1.
 				counter ]
 			width: 75;
-		column: 'i-account'
-			text: [ :each | each iAccountNumber ]
-			width: 75;
-		column: 'name'
-			text: [ :each | (each sortable_name) asRopedText ];
-		column: 'x' text: [ : each | self lepDatabase pages detect: [ :page | page title matches: '*',each iAccountNumber,'@*' ]
-ifNone: [ 'x']]" 
-		column: 'Origin'
-			text: [ :anExplicitLink | anExplicitLink originReference description ];
+		column: 'name' text: [ :each | each sortable_name asRopedText ];
+		column: 'page'
+			text: [ :each " 
+		column: 'Target'
+			text: [ :anExplicitLink | anExplicitLink targetReference description ];
+		column: 'Status'
+			text: [ :anExplicitLink | 
+				anExplicitLink targetReference status
+					in: [ :aStatus | 'aStatus label' asRopedText foreground: aStatus color ] ]
+			width: 100" | 
+				self lepDatabase pages
+					detect: [ :page | page title matches: '*' , each iAccountNumber , '@*' ]
+					ifNone: [ each iAccountNumber ]	"asRopedText" ];
+		send: [ :each | each value ]
+
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtPeopleLepFor: aView [
+	<gtView>
+	| counter |
+	counter := 0.
+	^ aView columnedList
+		title: 'pages';
+		priority: 8;
+		items: self people;
+"		items: [ (self lepDatabase pages sorted: [ :a :b | a title < b title ])
+				collect: [ :page | page" "title" "-> (self pageFileReference: page) ""] ];"
+		column: 'name' text: [ :each | each sortable_name asRopedText ];
+		column: 'page'
+			text: [ :each " 
 		column: 'Target'
 			text: [ :anExplicitLink | anExplicitLink targetReference description ];
 		column: 'Status'
 			text: [ :anExplicitLink | 
 				anExplicitLink targetReference status
 					in: [ :aStatus | aStatus label asRopedText foreground: aStatus color ] ]
-			width: 100"
+			width: 100" | 
+				self lepDatabase pages
+					detect: [ :page | page title matches: '*' , each iAccountNumber , '@*' ]
+					ifNone: [ each iAccountNumber ]	"asRopedText" ];
+		column: 'Title' text: [ :each | each key ];
+		column: 'File' text: [ :each | each value basename ];
+		send: [ :each | each value ]
+			"		column: 'i-account'
+			text: [ :each | each iAccountNumber ]
+			width: 75;"	"copied from >>gtNameMappingFor: aView"	"Provide a page title -> filename view"
 ]
 
 { #category : 'as yet unclassified' }
@@ -162,6 +194,11 @@ CACanvasCourse >> loadCourseInfo [
 	get. 
 	rawData := STON fromString: reply.
 
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> pageFileReference: page [ 
+	^ self lepDatabase pageFileReference: page
 ]
 
 { #category : 'as yet unclassified' }
