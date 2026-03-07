@@ -91,17 +91,15 @@ CACanvasCourse >> gtAnnouncementsFor: aView [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtAsignmentsFor: aView [
-
 	<gtView>
 	^ aView columnedList
 		title: 'assignments';
 		priority: 10;
-		items: self assignments;
+		items: (self assignments
+				sort: [ :a :b | a due_at ifNil: [ true ] ifNotNil: [ :x | x due_at < b due_at ] ]);
 		column: 'name' text: [ :each | each name ];
-		column: 'date' text: [ :each | each date ];
-		column: 'obj' text: [ :each | each asString ].
-		
-		
+		column: 'due' text: [ :each | each due_at ];
+		column: 'obj' text: [ :each | each asString ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -112,6 +110,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 		priority: 5;
 		items: self people;
 		column: 'i-account' text: [ :each | each iAccountNumber ] width: 75;
+		column: 'name' text: [ :each | each sortable_name ];
 		column: 'i' text: [ :each | each printString asRopedText ].
 ]
 
