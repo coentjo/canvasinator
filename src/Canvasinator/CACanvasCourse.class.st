@@ -141,7 +141,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 					in: [ :aStatus | 'aStatus label' asRopedText foreground: aStatus color ] ]
 			width: 100" | 
 				self lepDatabase pages
-					detect: [ :page | page title matches: '*' , each iAccountNumber , '@*' ]
+					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber ]	"asRopedText" ];
 		send: [ :each | each value ]
 

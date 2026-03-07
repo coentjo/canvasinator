@@ -24,7 +24,7 @@ CACanvasPerson >> allPages [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> email [
-	^ rawData at: 'email'
+	^ rawData at: 'email' ifAbsent: 'I??????@fhict.nl'
 ]
 
 { #category : 'as yet unclassified' }
@@ -65,7 +65,7 @@ CACanvasPerson >> gtLiveFor: aView [
 							c horizontal matchParent.
 							c vertical matchParent ];
 						editor: (BrTextEditor new text: self printString asRopedText)).
-			pages := self potentialPagesForMe: self iAccountNumber.
+			pages := self potentialPages: self iAccountNumber.
 			self inform: pages size asString.
 			pages do: [ :page |
 				vertical
@@ -84,7 +84,7 @@ CACanvasPerson >> gtPagesFor: aView [
 	^ aView list
 		title: 'Pages';
 		priority: 7;
-		items: (self potentialPagesForMe: self iAccountNumber) 
+		items: (self potentialPages: self iAccountNumber) 
 ]
 
 { #category : 'as yet unclassified' }
@@ -96,7 +96,7 @@ CACanvasPerson >> iAccountNumber [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> login_id [
-	^ rawData at: 'login_id'
+	^ rawData at: 'login_id' ifAbsent: '????'
 ]
 
 { #category : 'as yet unclassified' }
@@ -105,9 +105,14 @@ CACanvasPerson >> parent: aParent [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasPerson >> potentialPagesForMe: aPartOfAPageTitle [
+CACanvasPerson >> potentialPages: aPartOfAPageTitle [
 	self inform: self allPages size asString .
 	^ self allPages select: [ :page | page title matchesRegex: '.*',aPartOfAPageTitle,'.*' ]
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> potentialPagesForMe [
+	^ self potentialPages: self iAccountNumber
 ]
 
 { #category : 'as yet unclassified' }
