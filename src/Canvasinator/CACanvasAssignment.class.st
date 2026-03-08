@@ -21,6 +21,19 @@ CACanvasAssignment >> date [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasAssignment >> dueDateColor [
+	^ 
+	(self due_at asString <= Date today yyyymmdd)
+		ifTrue: [	Color red] 
+		ifFalse: [	Color green muchDarker]
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasAssignment >> dueRoped [
+	^ self due_at asRopedText foreground: self dueDateColor
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasAssignment >> due_at [
 	^ rawData at: 'due_at' ifAbsent: '-'
 ]

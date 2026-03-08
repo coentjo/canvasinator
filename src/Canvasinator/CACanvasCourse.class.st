@@ -111,7 +111,7 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 		priority: 10;
 		items: (self assignments sort: [ :a :b | a name <= b name ]);
 		column: 'name' text: [ :each | each name ];
-		column: 'date' text: [ :each | each due_at ];
+		column: 'date' text: [ :each | each dueRoped];
 		column: 'obj' text: [ :each | [each asString] onErrorDo: ['_'] ].
 		
 		
@@ -125,26 +125,17 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView columnedList
 		title: 'people';
 		priority: 5;
-		items: self people;
+		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
 		column: 'nr'
-			text: [ :eachItem :eachIndex | 
-				eachIndex asRopedText foreground: Color gray ]
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 75;
 		column: 'name' text: [ :each | each sortable_name asRopedText ];
 		column: 'page'
-			text: [ :each " 
-		column: 'Target'
-			text: [ :anExplicitLink | anExplicitLink targetReference description ];
-		column: 'Status'
-			text: [ :anExplicitLink | 
-				anExplicitLink targetReference status
-					in: [ :aStatus | 'aStatus label' asRopedText foreground: aStatus color ] ]
-			width: 100" | 
+			text: [ :each | 
 				self lepDatabase pages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
-					ifNone: [ each iAccountNumber ]	"asRopedText" ];
+					ifNone: [  each iAccountNumber asRopedText foreground: Color orange ] ];
 		send: [ :each | each value ]
-
 ]
 
 { #category : 'as yet unclassified' }

@@ -108,14 +108,14 @@ CACanvasPerson >> parent: aParent [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasPerson >> potentialPages: aPartOfAPageTitle [
-	self inform: self allPages size asString .
-	^ self allPages select: [ :page | page title matchesRegex: '.*',aPartOfAPageTitle,'.*' ]
+CACanvasPerson >> potentialPagesForMe [
+	^ self potentialPagesOfWhichTitleContains: self iAccountNumber
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasPerson >> potentialPagesForMe [
-	^ self potentialPages: self iAccountNumber
+CACanvasPerson >> potentialPagesOfWhichTitleContains: aPartOfAPageTitle [
+	self inform: self allPages size asString .
+	^ self allPages select: [ :page | page title matchesRegex: '.*',aPartOfAPageTitle,'.*' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -136,6 +136,11 @@ CACanvasPerson >> rawData: personRawData [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> semesterAanduiding [
 	^ '202602'
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> sortByThis [
+	^ self sortable_name
 ]
 
 { #category : 'as yet unclassified' }
