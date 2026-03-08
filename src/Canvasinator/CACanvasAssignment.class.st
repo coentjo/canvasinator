@@ -22,7 +22,7 @@ CACanvasAssignment >> date [
 
 { #category : 'as yet unclassified' }
 CACanvasAssignment >> due_at [
-	^ rawData at: 'due_at'
+	^ rawData at: 'due_at' ifAbsent: '-'
 ]
 
 { #category : 'as yet unclassified' }
@@ -43,8 +43,7 @@ CACanvasAssignment >> name [
 CACanvasAssignment >> printOn: aStream [
 	aStream 
 		nextPutAll: 'assignment: '; cr;
-		nextPutAll: self name ; cr;
-		nextPutAll: self due_at
+		nextPutAll: self name
 ]
 
 { #category : 'accessing' }

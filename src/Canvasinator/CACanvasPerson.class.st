@@ -30,34 +30,34 @@ CACanvasPerson >> email [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> gtLiveFor: aView [
 	<gtView>
+	| pages |
+	pages := self potentialPagesForMe.
 	^ aView explicit
 		title: 'Person';
 		priority: 5;
-		actionButtonIcon: BrGlamorousVectorIcons play
-			action: [ :aButton | aButton phlow spawnObject: 1 ];
-		stencil: [ | vertical pages |
+		stencil: [ | vertical |
 			vertical := BrVerticalPane new.
 			vertical
-				addChild: (BrEditorElement new 
+				addChild: (BrEditorElement new
 						padding: (BlInsets all: 10);
 						constraintsDo: [ :c | 
 							c horizontal matchParent.
 							c vertical matchParent ];
-					editor: (BrTextEditor new text: self email asRopedText)).
+						editor: (BrTextEditor new text: self email asRopedText)).
 			vertical
-				addChild: (BrEditorElement new 
+				addChild: (BrEditorElement new
 						padding: (BlInsets all: 10);
 						constraintsDo: [ :c | 
 							c horizontal matchParent.
 							c vertical matchParent ];
-					editor: (BrTextEditor new text: self login_id asRopedText)).
+						editor: (BrTextEditor new text: self login_id asRopedText)).
 			vertical
-				addChild: (BrEditorElement new 
+				addChild: (BrEditorElement new
 						padding: (BlInsets all: 10);
 						constraintsDo: [ :c | 
 							c horizontal matchParent.
 							c vertical matchParent ];
-					editor: (BrTextEditor new text: self iAccountNumber asRopedText)).
+						editor: (BrTextEditor new text: self iAccountNumber asRopedText)).
 			vertical
 				addChild: (BrEditorElement new
 						padding: (BlInsets all: 10);
@@ -65,17 +65,20 @@ CACanvasPerson >> gtLiveFor: aView [
 							c horizontal matchParent.
 							c vertical matchParent ];
 						editor: (BrTextEditor new text: self printString asRopedText)).
-			pages := self potentialPages: self iAccountNumber.
 			self inform: pages size asString.
-			pages do: [ :page |
-				vertical
-					addChild: (BrEditorElement new
-							padding: (BlInsets all: 10);
-							constraintsDo: [ :c | 
-								c horizontal matchParent.
-								c vertical matchParent ];
-							editor: (BrTextEditor new text: page printString asRopedText))].
-			vertical ]
+			pages
+				do: [  "				vertical addChild: Br.":page | 
+					vertical
+						addChild: (BrEditorElement new
+								padding: (BlInsets all: 10);
+								constraintsDo: [ :c | 
+									c horizontal matchParent.
+									c vertical matchParent ];
+								editor: (BrTextEditor new text: page printString asRopedText)) ].
+			vertical ];
+		actionButtonIcon: BrGlamorousVectorIcons browse
+			tooltip: 'open page'
+			action: [ :aButton | aButton phlow spawnTool: pages first ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -84,7 +87,7 @@ CACanvasPerson >> gtPagesFor: aView [
 	^ aView list
 		title: 'Pages';
 		priority: 7;
-		items: (self potentialPages: self iAccountNumber) 
+		items: self potentialPagesForMe 
 ]
 
 { #category : 'as yet unclassified' }

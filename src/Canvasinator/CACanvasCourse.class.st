@@ -36,10 +36,10 @@ CACanvasCourse >> announcements [
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
 				, 'courses/' , self id asString
-				, '/announcements';
+				, '/announcement';
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
-	rawDatax := STON fromString: reply.
+	rawDatax := "STON fromString:" reply.
 	^ rawDatax "collect: [ :each | CACanvasPerson on: each ]"
 	
 ]
@@ -109,9 +109,9 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 	^ aView columnedList
 		title: 'assignments';
 		priority: 10;
-		items: self assignments;
+		items: (self assignments sort: [ :a :b | a name <= b name ]);
 		column: 'name' text: [ :each | each name ];
-		column: 'date' text: [ :each | each date ];
+		column: 'date' text: [ :each | each due_at ];
 		column: 'obj' text: [ :each | [each asString] onErrorDo: ['_'] ].
 		
 		
