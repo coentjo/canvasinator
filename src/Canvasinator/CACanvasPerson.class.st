@@ -93,7 +93,7 @@ CACanvasPerson >> gtPagesFor: aView [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> iAccountNumber [
 	| iAccount |
-	iAccount := rawData at: 'login_id' ifAbsent: 'I??????@fhict.nl'.
+	iAccount := rawData at: 'login_id' ifAbsent: 'Ixxxxxx@fhict.nl'.
 	^ ((iAccount splitOn: '@') at: 1).
 ]
 
@@ -114,7 +114,6 @@ CACanvasPerson >> potentialPagesForMe [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> potentialPagesOfWhichTitleContains: aPartOfAPageTitle [
-	self inform: self allPages size asString .
 	^ self allPages select: [ :page | page title matchesRegex: '.*',aPartOfAPageTitle,'.*' ]
 ]
 
@@ -140,7 +139,18 @@ CACanvasPerson >> semesterAanduiding [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> sortByThis [
-	^ self sortable_name
+	| pages |
+	pages := self potentialPagesForMe.
+	"Person with a Page should be at the top"
+	^ (pages size > 0 ifTrue: [''] ifFalse: ['zzzz']), self sortable_name
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> sortByThisUsing: aPagesCollection [
+	| pages |
+	pages := self potentialPagesForMe.
+	"Person with a Page should be at the top"
+	^ (aPagesCollection size > 0 ifTrue: [''] ifFalse: ['zzzz']), self sortable_name
 ]
 
 { #category : 'as yet unclassified' }

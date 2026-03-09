@@ -119,8 +119,9 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtPeopleFor: aView [
 	<gtView>
-	| counter |
+	| counter allPages |
 	counter := 0.
+	allPages := self allPages.
 	^ aView columnedList
 		title: 'people';
 		priority: 5;
@@ -128,12 +129,13 @@ CACanvasCourse >> gtPeopleFor: aView [
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 75;
-		column: 'name' text: [ :each | each sortable_name asRopedText ];
+		column: 'name'
+			text: [  "each sortable_name asRopedText":each | each sortByThisUsing: allPages ];
 		column: 'page'
 			text: [ :each | 
-				self lepDatabase pages
+				allPages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
-					ifNone: [  each iAccountNumber asRopedText foreground: Color orange ] ];
+					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
 		send: [ :each | each value ]
 ]
 
