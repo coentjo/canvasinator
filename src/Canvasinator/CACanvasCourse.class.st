@@ -4,18 +4,25 @@ Class {
 	#instVars : [
 		'rawData',
 		'token',
-		'courseId'
+		'courseId',
+		'fromSnippet'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
 }
 
 { #category : 'accessing' }
-CACanvasCourse class >> courseId: aCourseId [ 
+CACanvasCourse class >> courseId: aCourseId fromSnippet: aSnippet [ 
 	^ self new
 		courseId: aCourseId;
+		fromSnippet: aSnippet;
 		loadCourseInfo;
 		yourself
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> allPages [
+	^ self lepDatabase pages
 ]
 
 { #category : 'as yet unclassified' }
@@ -29,10 +36,10 @@ CACanvasCourse >> announcements [
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
 				, 'courses/' , self id asString
-				, '/announcements';
+				, '/announcement';
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
-	rawDatax := STON fromString: reply.
+	rawDatax := "STON fromString:" reply.
 	^ rawDatax "collect: [ :each | CACanvasPerson on: each ]"
 	
 ]
@@ -78,6 +85,12 @@ CACanvasCourse >> course_code [
 	^ rawData at: 'course_code'
 ]
 
+{ #category : 'accessing' }
+CACanvasCourse >> fromSnippet: thisSnippet [ 
+	"store snippet for now, although at this moment I only need the database, which I can get from this snippet"
+	fromSnippet := thisSnippet
+]
+
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtAnnouncementsFor: aView [
 
@@ -95,28 +108,43 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 	^ aView columnedList
 		title: 'assignments';
 		priority: 10;
-		items: (self assignments
-				sort: [ :a :b | a due_at ifNil: [ true ] ifNotNil: [ :x | x due_at < b due_at ] ]);
+		items: (self assignments sort: [ :a :b | a name <= b name ]);
 		column: 'name' text: [ :each | each name ];
-		column: 'due' text: [ :each | each due_at ];
-		column: 'obj' text: [ :each | each asString ]
+		column: 'date' text: [ :each | each dueRoped];
+		column: 'obj' text: [ :each | [each asString] onErrorDo: ['_'] ].
+		
+		
 ]
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtPeopleFor: aView [
 	<gtView>
+	| counter |
+	counter := 0.
 	^ aView columnedList
 		title: 'people';
 		priority: 5;
-		items: self people;
-		column: 'i-account' text: [ :each | each iAccountNumber ] width: 75;
-		column: 'name' text: [ :each | each sortable_name ];
-		column: 'i' text: [ :each | each printString asRopedText ].
+		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
+		column: 'nr'
+			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
+			width: 75;
+		column: 'name' text: [ :each | each sortable_name asRopedText ];
+		column: 'page'
+			text: [ :each | 
+				self lepDatabase pages
+					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
+					ifNone: [  each iAccountNumber asRopedText foreground: Color orange ] ];
+		send: [ :each | each value ]
 ]
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> id [
 	^ courseId asString
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> lepDatabase [
+	^ fromSnippet database
 ]
 
 { #category : 'accessing' }
@@ -131,6 +159,16 @@ CACanvasCourse >> loadCourseInfo [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> pageFileReference: page [ 
+	^ self lepDatabase pageFileReference: page
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> pageFor: anIAccountNr [
+	self lepDatabase pages detect: [ :p | p title asString startsWith: anIAccountNr ] ifNone: [ '-' ]
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> people [
 	"remark: limited nr of people (?per_page=110)"
 
@@ -138,7 +176,7 @@ CACanvasCourse >> people [
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
 	| reply rawDatax nrPerPage|
-	nrPerPage := 110 asString.
+	nrPerPage := 150 asString.
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
 				, 'courses/' , self id asString
@@ -146,7 +184,7 @@ CACanvasCourse >> people [
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
-	^ rawDatax collect: [ :each | CACanvasPerson on: each ]
+	^ rawDatax collect: [ :each | CACanvasPerson on: each withParent: self]
 	
 ]
 
