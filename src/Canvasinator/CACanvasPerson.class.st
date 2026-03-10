@@ -67,7 +67,7 @@ CACanvasPerson >> gtLiveFor: aView [
 						editor: (BrTextEditor new text: self printString asRopedText)).
 			self inform: pages size asString.
 			pages
-				do: [  "				vertical addChild: Br.":page | 
+				do: [ :page "				vertical addChild: Br." | 
 					vertical
 						addChild: (BrEditorElement new
 								padding: (BlInsets all: 10);
@@ -76,8 +76,11 @@ CACanvasPerson >> gtLiveFor: aView [
 									c vertical matchParent ];
 								editor: (BrTextEditor new text: page printString asRopedText)) ].
 			vertical ];
-		actionButtonIcon: BrGlamorousVectorIcons browse
+		actionButtonIcon: BrGlamorousVectorIcons  browse
 			tooltip: 'open page'
+			action: [ :aButton | aButton phlow spawnTool: pages first ];
+		actionButtonIcon: BrGlamorousVectorIcons add
+			tooltip: 'create page'
 			action: [ :aButton | aButton phlow spawnTool: pages first ]
 ]
 
