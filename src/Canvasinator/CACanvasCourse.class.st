@@ -108,7 +108,7 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 	^ aView columnedList
 		title: 'assignments';
 		priority: 10;
-		items: (self assignments sort: [ :a :b | a name <= b name ]);
+		items: (self assignments sort: [ :a :b | a due_at <= b due_at ]);
 		column: 'name' text: [ :each | each name ];
 		column: 'date' text: [ :each | each dueRoped];
 		column: 'obj' text: [ :each | [each asString] onErrorDo: ['_'] ].
