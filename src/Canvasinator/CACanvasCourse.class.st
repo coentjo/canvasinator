@@ -109,9 +109,9 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 		title: 'assignments';
 		priority: 10;
 		items: (self assignments sort: [ :a :b | a due_at <= b due_at ]);
-		column: 'name' text: [ :each | each name ];
-		column: 'date' text: [ :each | each dueRoped];
-		column: 'obj' text: [ :each | [each asString] onErrorDo: ['_'] ].
+		column: 'date' text: [ :each | each dueRoped] width: 80;
+		column: 'name' text: [ :each | each name asRopedText foreground: each dueDateColor ];
+		column: 'obj' text: [ :each | [each asString asRopedText foreground: each dueDateColor ] onErrorDo: ['_'] ].
 		
 		
 ]
