@@ -137,11 +137,18 @@ CACanvasCourse >> gtPeopleFor: aView [
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
 		send: [ :each | each value ];
+		actionButtonIcon: BrGlamorousVectorIcons robot
+			tooltip: 'feedpulse'
+			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				WebBrowser
+					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1663' ];
 		actionButtonIcon: BrGlamorousVectorIcons roadmap
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1067' ]
+					
+
 ]
 
 { #category : 'as yet unclassified' }

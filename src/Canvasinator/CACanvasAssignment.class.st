@@ -38,8 +38,8 @@ CACanvasAssignment >> dueRoped [
 { #category : 'as yet unclassified' }
 CACanvasAssignment >> due_at [
 	| due_at |
-	due_at := rawData at: 'due_at' ifAbsent: '-'.
-	^ (due_at splitOn: 'T') at: 1
+	due_at := (rawData at: 'due_at' ifAbsent: '-') ifNil: ['-'].
+	^ ('T' split: due_at) at: 1
 ]
 
 { #category : 'as yet unclassified' }
