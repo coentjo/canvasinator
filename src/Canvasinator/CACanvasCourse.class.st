@@ -137,8 +137,13 @@ CACanvasCourse >> gtPeopleFor: aView [
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
 		send: [ :each | each value ];
+		actionButtonIcon: BrGlamorousVectorIcons async
+			tooltip: 'portflow'
+			action: [ :aButton | 
+				WebBrowser
+					openOn: 'https://fhict.instructure.com/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ];
 		actionButtonIcon: BrGlamorousVectorIcons robot
-			tooltip: 'feedpulse'
+			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1663' ];
