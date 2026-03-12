@@ -59,11 +59,7 @@ CACanvasCourse >> assignmentWithId: assignmentId [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> assignments [
-	"remark: limited nr of people (?per_page=110)"
-
-	"courseId := 15575 asString."
-	"example: ""https://fhict.instructure.com/courses/15575/users"
-
+	"remark: limited nr (?per_page=110)"
 	| reply rawDatax|
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
@@ -106,7 +102,7 @@ CACanvasCourse >> gtAnnouncementsFor: aView [
 CACanvasCourse >> gtAsignmentsFor: aView [
 	<gtView>
 	^ aView columnedList
-		title: 'assignments';
+		title: 'Assignments';
 		priority: 10;
 		items: (self assignments sort: [ :a :b | a due_at <= b due_at ]);
 		column: 'date' text: [ :each | each dueRoped] width: 80;
@@ -123,7 +119,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	counter := 0.
 	allPages := self allPages.
 	^ aView columnedList
-		title: 'people';
+		title: 'People';
 		priority: 5;
 		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
 		column: 'nr'
@@ -154,6 +150,20 @@ CACanvasCourse >> gtPeopleFor: aView [
 					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1067' ]
 					
 
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtPortflowEvaluationsFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Grow';
+		priority: 12;
+		items: ((self portflowAssignments 	) sort: [ :a :b | a due_at <= b due_at ]);
+		column: 'date' text: [ :each | each dueRoped] width: 80;
+		column: 'name' text: [ :each | each name asRopedText foreground: each dueDateColor ];
+		column: 'obj' text: [ :each | [each asString asRopedText foreground: each dueDateColor ] onErrorDo: ['_'] ].
+		
+		
 ]
 
 { #category : 'as yet unclassified' }
@@ -205,6 +215,17 @@ CACanvasCourse >> people [
 	rawDatax := STON fromString: reply.
 	^ rawDatax collect: [ :each | CACanvasPerson on: each withParent: self]
 	
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> portflowAssignments [
+	^ self assignments
+		select: [ :each | 
+			1
+				= (each name
+						findString: 'portflow'
+						startingAt: 1
+						caseSensitive: false) ]
 ]
 
 { #category : 'as yet unclassified' }

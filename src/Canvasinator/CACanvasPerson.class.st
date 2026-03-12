@@ -87,10 +87,12 @@ CACanvasPerson >> gtLiveFor: aView [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> gtPagesFor: aView [
 	<gtView>
-	^ aView list
+	^ aView columnedList
 		title: 'Pages';
 		priority: 7;
-		items: self potentialPagesForMe 
+		items: self potentialPagesForMe;
+		column: 'Pages?' text: [ :each | each key asRopedText foreground: each value ]
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -112,7 +114,13 @@ CACanvasPerson >> parent: aParent [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> potentialPagesForMe [
-	^ self potentialPagesOfWhichTitleContains: self iAccountNumber
+
+	| onPcn onNamePart |
+	"self potentialPagesOfWhichTitleContains: self iAccountNumber"
+	onPcn := self potentialPagesOfWhichTitleContains: self iAccountNumber.
+	onNamePart := self potentialPagesOfWhichTitleContains: (self sortable_name first: 7).
+	^ (onPcn collect: [ : each | each -> (Color green muchDarker)])
+	, (onNamePart collect: [ : each | each -> Color gray])
 ]
 
 { #category : 'as yet unclassified' }
