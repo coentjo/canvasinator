@@ -89,7 +89,7 @@ CACanvasPerson >> gtPagesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Pages';
-		priority: 7;
+		priority: 4;
 		items: self potentialPagesForMe;
 		column: 'Pages?' text: [ :each | each key asRopedText foreground: each value ]
 

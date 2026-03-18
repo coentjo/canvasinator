@@ -223,7 +223,7 @@ CACanvasCourse >> portflowAssignments [
 		select: [ :each | 
 			1
 				= (each name
-						findString: 'portflow'
+						findString: 'portf'
 						startingAt: 1
 						caseSensitive: false) ]
 ]
