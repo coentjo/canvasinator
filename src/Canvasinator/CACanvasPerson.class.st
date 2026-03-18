@@ -18,8 +18,8 @@ CACanvasPerson class >> on: personRawData withParent: aParent [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasPerson >> allPages [
-	^ parent allPages
+CACanvasPerson >> allLepiterPages [
+	^ parent allLepiterPages
 ]
 
 { #category : 'as yet unclassified' }
@@ -125,7 +125,7 @@ CACanvasPerson >> potentialPagesForMe [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> potentialPagesOfWhichTitleContains: aPartOfAPageTitle [
-	^ self allPages select: [ :page | page title matchesRegex: '.*',aPartOfAPageTitle,'.*' ]
+	^ self allLepiterPages select: [ :page | page title matchesRegex: '.*',aPartOfAPageTitle,'.*' ]
 ]
 
 { #category : 'as yet unclassified' }

@@ -21,7 +21,7 @@ CACanvasCourse class >> courseId: aCourseId fromSnippet: aSnippet [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasCourse >> allPages [
+CACanvasCourse >> allLepiterPages [
 	^ self lepDatabase pages
 ]
 
@@ -88,17 +88,6 @@ CACanvasCourse >> fromSnippet: thisSnippet [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasCourse >> gtAnnouncementsFor: aView [
-
-	<gtView>
-	^ aView list
-		title: 'announcements';
-		priority: 17;
-		items: { 'self announcements' }
-		
-]
-
-{ #category : 'as yet unclassified' }
 CACanvasCourse >> gtAsignmentsFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -113,11 +102,23 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> gtModulesFor: aView [
+
+	<gtView>
+	^ aView columnedList
+		title: 'Modules';
+		priority: 17;
+		items: self modules 
+		
+		
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> gtPeopleFor: aView [
 	<gtView>
 	| counter allPages |
 	counter := 0.
-	allPages := self allPages.
+	allPages := self allLepiterPages.
 	^ aView columnedList
 		title: 'People';
 		priority: 5;
@@ -185,6 +186,20 @@ CACanvasCourse >> loadCourseInfo [
 	get. 
 	rawData := STON fromString: reply.
 
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> modules [
+	"remark: limited nr (?per_page=110)"
+	| reply rawDatax|
+	reply := ZnClient new
+			url: 'https://fhict.instructure.com/' , 'api/v1/' 
+				, 'courses/' , self id asString
+				, '/modules';
+			headerAt: 'Authorization' put: ' Bearer ' , self token;
+			get.
+	rawDatax := STON fromString: reply.
+	^ rawDatax collect: [ :each | CACanvasModule on: each ]
 ]
 
 { #category : 'as yet unclassified' }
