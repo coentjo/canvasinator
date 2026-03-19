@@ -103,14 +103,16 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtModulesFor: aView [
-
 	<gtView>
 	^ aView columnedList
 		title: 'Modules';
 		priority: 17;
-		items: self modules 
-		
-		
+		items: self modules;
+		column: 'pos' text: [ :each | each position ] width: 40;
+		column: 'module'
+			text: [ :each | 
+				each asRopedText
+					foreground: (each published ifTrue: [ Color purple ] ifFalse: [ Color lightGray ]) ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -119,7 +121,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	| counter allPages |
 	counter := 0.
 	allPages := self allLepiterPages.
-	^ aView columnedList
+	aView columnedList
 		title: 'People';
 		priority: 5;
 		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
@@ -133,7 +135,9 @@ CACanvasCourse >> gtPeopleFor: aView [
 				allPages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
-		send: [ :each | each value ];
+		send: [ :each | each value ].
+		
+		aView
 		actionButtonIcon: BrGlamorousVectorIcons async
 			tooltip: 'portflow'
 			action: [ :aButton | 
@@ -149,8 +153,8 @@ CACanvasCourse >> gtPeopleFor: aView [
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1067' ]
-					
-
+					.
+^ aView
 ]
 
 { #category : 'as yet unclassified' }
@@ -251,6 +255,11 @@ CACanvasCourse >> printOn: aStream [
 		cr;
 		nextPutAll: 'id: ';
 		nextPutAll: self id
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> published [
+	^ rawData at: 'published'
 ]
 
 { #category : 'accessing' }

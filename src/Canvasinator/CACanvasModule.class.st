@@ -16,8 +16,18 @@ CACanvasModule class >> on: rawModuleData [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasModule >> position [
+	^ rawData at: 'position'
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasModule >> printOn: aStream [
 	aStream nextPutAll: (rawData at: 'name') asString
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasModule >> published [
+	^ rawData at: 'published'
 ]
 
 { #category : 'as yet unclassified' }
