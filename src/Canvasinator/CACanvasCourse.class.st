@@ -121,7 +121,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	| counter allPages |
 	counter := 0.
 	allPages := self allLepiterPages.
-	aView columnedList
+	^ aView columnedList
 		title: 'People';
 		priority: 5;
 		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
@@ -135,9 +135,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 				allPages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
-		send: [ :each | each value ].
-		
-		aView
+		send: [ :each | each value ];
 		actionButtonIcon: BrGlamorousVectorIcons async
 			tooltip: 'portflow'
 			action: [ :aButton | 
@@ -147,14 +145,14 @@ CACanvasCourse >> gtPeopleFor: aView [
 			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
-					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1663' ];
+					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
+							, '/external_tools/1663' ];
 		actionButtonIcon: BrGlamorousVectorIcons roadmap
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
-					openOn: 'https://fhict.instructure.com/courses/',  courseId asString,'/external_tools/1067' ]
-					.
-^ aView
+					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
+							, '/external_tools/1067' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -223,7 +221,7 @@ CACanvasCourse >> people [
 	"courseId := 15575 asString."
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
-	| reply rawDatax nrPerPage|
+	| reply rawDatax nrPerPage all|
 	nrPerPage := 150 asString.
 	reply := ZnClient new
 			url: 'https://fhict.instructure.com/' , 'api/v1/' 
@@ -232,7 +230,8 @@ CACanvasCourse >> people [
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
-	^ rawDatax collect: [ :each | CACanvasPerson on: each withParent: self]
+	all := rawDatax collect: [ :each | CACanvasPerson on: each withParent: self].
+	^ all reject: [ :each | each isTeacher ]
 	
 ]
 

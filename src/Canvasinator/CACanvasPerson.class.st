@@ -91,7 +91,7 @@ CACanvasPerson >> gtPagesFor: aView [
 		title: 'Pages';
 		priority: 4;
 		items: self potentialPagesForMe;
-		column: 'Pages?' text: [ :each | each key asRopedText foreground: each value ]
+		column: 'Pages?' text: [ :each | each "key asRopedText foreground: each value" ]
 
 ]
 
@@ -100,6 +100,11 @@ CACanvasPerson >> iAccountNumber [
 	| iAccount |
 	iAccount := rawData at: 'login_id' ifAbsent: 'Ixxxxxx@fhict.nl'.
 	^ ((iAccount splitOn: '@') at: 1).
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> isTeacher [
+	^ self iAccountNumber asLowercase beginsWith: 'i8'
 ]
 
 { #category : 'as yet unclassified' }
@@ -119,8 +124,8 @@ CACanvasPerson >> potentialPagesForMe [
 	"self potentialPagesOfWhichTitleContains: self iAccountNumber"
 	onPcn := self potentialPagesOfWhichTitleContains: self iAccountNumber.
 	onNamePart := self potentialPagesOfWhichTitleContains: (self sortable_name first: 7).
-	^ (onPcn collect: [ : each | each -> (Color green muchDarker)])
-	, (onNamePart collect: [ : each | each -> Color gray])
+	^ (onPcn collect: [ : each | each "-> (Color green muchDarker)"])
+	, (onNamePart collect: [ : each | each "-> Color gray"])
 ]
 
 { #category : 'as yet unclassified' }
