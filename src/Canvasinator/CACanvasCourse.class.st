@@ -127,15 +127,21 @@ CACanvasCourse >> gtPeopleFor: aView [
 		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
-			width: 75;
+			width: 35;
 		column: 'name'
-			text: [ :each "each sortable_name asRopedText" | each sortByThisUsing: allPages ];
+			text: [ :each "each sortable_name asRopedText" | each sortByThisUsing: allPages ]
+			width: 200;
 		column: 'page'
 			text: [ :each | 
 				allPages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
 		send: [ :each | each value ];
+		actionButtonIcon: BrGlamorousVectorIcons play
+			tooltip: 'stubru'
+			action: [ :aButton | 
+				WebBrowser
+					openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
 		actionButtonIcon: BrGlamorousVectorIcons async
 			tooltip: 'portflow'
 			action: [ :aButton | 

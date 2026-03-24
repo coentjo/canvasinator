@@ -91,8 +91,14 @@ CACanvasPerson >> gtPagesFor: aView [
 		title: 'Pages';
 		priority: 4;
 		items: self potentialPagesForMe;
-		column: 'Pages?' text: [ :each | each "key asRopedText foreground: each value" ]
-
+		column: 'Pages?'
+			text: [ :each | 
+				| color page |
+				page := each.
+				color := (page title endsWith: 'coachee' caseSensitive: false)
+						ifTrue: [ Color red darker ]
+						ifFalse: [ Color gray ].
+				page asRopedText foreground: color ]
 ]
 
 { #category : 'as yet unclassified' }
