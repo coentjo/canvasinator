@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'rawData',
-		'parent'
+		'parent',
+		'courseId'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -23,8 +24,38 @@ CACanvasPerson >> allLepiterPages [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasPerson >> courseId [
+	^ parent course_code
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasPerson >> email [
 	^ rawData at: 'email' ifAbsent: 'I??????@fhict.nl'
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> grades [
+	"remark: limited nr (?per_page=110)"
+	| reply rawDatax|
+	reply := ZnClient new
+			url: 'https://fhict.instructure.com/' , 'api/v1/' 
+				, 'courses/' , self courseId asString
+				, '/users/', self id asString;
+			headerAt: 'Authorization' put: ' Bearer ' , self token;
+			get.
+	rawDatax := STON fromString: reply.
+	^ rawDatax collect: [ :each | CACanvasAssignment on: each ]
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> gtGradesFor: aView [
+	<gtView>
+	| grades |
+	grades := self grades.
+	^ aView columnedList
+		title: 'Grades';
+		priority: 9;
+		items: {grades}
 ]
 
 { #category : 'as yet unclassified' }
@@ -44,6 +75,13 @@ CACanvasPerson >> gtLiveFor: aView [
 							c horizontal matchParent.
 							c vertical matchParent ];
 						editor: (BrTextEditor new text: self email asRopedText)).
+			vertical
+				addChild: (BrEditorElement new
+						padding: (BlInsets all: 10);
+						constraintsDo: [ :c | 
+							c horizontal matchParent.
+							c vertical matchParent ];
+						editor: (BrTextEditor new text: self id asRopedText)).
 			vertical
 				addChild: (BrEditorElement new
 						padding: (BlInsets all: 10);
@@ -105,6 +143,11 @@ CACanvasPerson >> iAccountNumber [
 	| iAccount |
 	iAccount := rawData at: 'login_id' ifAbsent: 'Ixxxxxx@fhict.nl'.
 	^ ((iAccount splitOn: '@') at: 1).
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> id [
+	^ rawData at: 'id'
 ]
 
 { #category : 'as yet unclassified' }
@@ -177,4 +220,9 @@ CACanvasPerson >> sortByThisUsing: aPagesCollection [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> sortable_name [
 	^ rawData at: 'sortable_name'
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> token [
+	^ parent token
 ]
