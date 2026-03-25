@@ -135,7 +135,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 			text: [ :each | 
 				allPages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
-					ifNone: [ each iAccountNumber asRopedText foreground: Color orange ] ];
+					ifNone: [ each iAccountNumber asRopedText foreground: Color gray ] ];
 		send: [ :each | each value ];
 		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'stubru'

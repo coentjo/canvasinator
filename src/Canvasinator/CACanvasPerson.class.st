@@ -65,7 +65,6 @@ CACanvasPerson >> gtLiveFor: aView [
 							c horizontal matchParent.
 							c vertical matchParent ];
 						editor: (BrTextEditor new text: self printString asRopedText)).
-			self inform: pages size asString.
 			pages
 				do: [ :page "				vertical addChild: Br." | 
 					vertical
@@ -98,7 +97,7 @@ CACanvasPerson >> gtPagesFor: aView [
 				color := (page title endsWith: 'coachee' caseSensitive: false)
 						ifTrue: [ Color red darker ]
 						ifFalse: [ Color gray ].
-				page asRopedText foreground: color ]
+				page "?title" asString asRopedText foreground: color ]
 ]
 
 { #category : 'as yet unclassified' }

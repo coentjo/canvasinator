@@ -16,6 +16,11 @@ CACanvasAssignment class >> on: rawAssignmentData [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasAssignment >> courseId [
+	^ 15757
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasAssignment >> date [
 	^ '1-1'
 ]
@@ -46,9 +51,15 @@ CACanvasAssignment >> due_at [
 CACanvasAssignment >> gtRubricFor: aView [
 	<gtView>
 	^ aView list
-		title: 'rubrics';
+		title: 'Rubrics';
 		priority: 10;
-		items: { 1 . 4 . 6}
+		items: self rubric_settings;
+		actionButtonIcon: BrGlamorousVectorIcons target
+			tooltip: 'attendance'
+			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				WebBrowser
+					openOn: 'https://fhict.instructure.com/courses/' , self courseId asString
+							, '/gradebook/speed_grader?assignment_id=273514&anonymous_id=3hz3G&student_id=39655' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -69,6 +80,13 @@ CACanvasAssignment >> rawData: dictionary [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasAssignment >> rubric [
-	^ rawData at: 'rubric'
+CACanvasAssignment >> rubric_settings [
+	^ (rawData at: 'rubric') "collect: [ :each | CARubricsSet on: each]"
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasAssignment >> rubrics [
+	^ {1.
+		4.
+		6}
 ]
