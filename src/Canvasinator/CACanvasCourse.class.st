@@ -139,9 +139,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 		send: [ :each | each value ];
 		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'stubru'
-			action: [ :aButton | 
-				WebBrowser
-					openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
+			action: [ :aButton | WebBrowser openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
 		actionButtonIcon: BrGlamorousVectorIcons async
 			tooltip: 'portflow'
 			action: [ :aButton | 

@@ -18,7 +18,7 @@ CARubricsSet class >> on: aRawData [
 { #category : 'as yet unclassified' }
 CARubricsSet >> printOn: aStream [
 
-	aStream nextPutAll: rawData
+	aStream nextPutAll: rawData asString
 ]
 
 { #category : 'as yet unclassified' }
