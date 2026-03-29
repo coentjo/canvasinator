@@ -71,7 +71,7 @@ CACanvasAssignment >> name [
 CACanvasAssignment >> printOn: aStream [
 	aStream 
 		nextPutAll: 'assignment: '; cr;
-		nextPutAll: self name
+		nextPutAll: self name asString
 ]
 
 { #category : 'accessing' }

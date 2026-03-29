@@ -71,6 +71,11 @@ CACanvasCourse >> assignments [
 	^ rawDatax collect: [ :each | CACanvasAssignment on: each ]
 ]
 
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> courseId [
+	^ courseId
+]
+
 { #category : 'accessing' }
 CACanvasCourse >> courseId: aCourseId [ 
 	courseId := aCourseId asString

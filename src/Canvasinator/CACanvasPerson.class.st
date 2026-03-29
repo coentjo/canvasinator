@@ -25,7 +25,16 @@ CACanvasPerson >> allLepiterPages [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> courseId [
-	^ parent course_code
+	^ parent courseId
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> createPage: aPageName [
+	^ self lepDatabase addPage: 
+		(LePage new 
+			addSnippet: (LeTextSnippet new string: 'wk');
+			title: aPageName;
+			yourself)
 ]
 
 { #category : 'as yet unclassified' }
@@ -113,12 +122,18 @@ CACanvasPerson >> gtLiveFor: aView [
 									c vertical matchParent ];
 								editor: (BrTextEditor new text: page printString asRopedText)) ].
 			vertical ];
-		actionButtonIcon: BrGlamorousVectorIcons  browse
+		actionButtonIcon: BrGlamorousVectorIcons browse
 			tooltip: 'open page'
 			action: [ :aButton | aButton phlow spawnTool: pages first ];
 		actionButtonIcon: BrGlamorousVectorIcons add
 			tooltip: 'create page'
-			action: [ :aButton | aButton phlow spawnTool: pages first ]
+			action: [ :aButton | 
+				pages
+					ifEmpty: [ | pageName |
+						self inform: 'Page to be created'.
+						pageName := self printString.
+						Clipboard clipboardText: pageName ]
+					ifNotEmpty: [ aButton phlow spawnTool: pages first ] ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -127,13 +142,13 @@ CACanvasPerson >> gtPagesFor: aView [
 	^ aView columnedList
 		title: 'Pages';
 		priority: 4;
-		items: self potentialPagesForMe;
+		items: (self potentialPagesForMe ifEmpty: [{self createPage: self printString}]);
 		column: 'Pages?'
 			text: [ :each | 
 				| color page |
 				page := each.
 				color := (page title endsWith: 'coachee' caseSensitive: false)
-						ifTrue: [ Color red darker ]
+						ifTrue: [ Color orange ]
 						ifFalse: [ Color gray ].
 				page "?title" asString asRopedText foreground: color ]
 ]
@@ -153,6 +168,11 @@ CACanvasPerson >> id [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> isTeacher [
 	^ self iAccountNumber asLowercase beginsWith: 'i8'
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> lepDatabase [
+	^ parent lepDatabase
 ]
 
 { #category : 'as yet unclassified' }
