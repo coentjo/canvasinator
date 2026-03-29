@@ -44,7 +44,7 @@ FileReference >> caGraphForZip: aView [
 FileReference >> caViewDiff2For: aView [
 	<gtView>
 	|   start |
-	start := '/Users/croco2/Downloads/example_cs_to_diff_with.cs' asFileReference .
+	start := '/Users/croco2/Downloads/replace-me-by-an-existing-file-to-be-useful' asFileReference .
 	^ aView textEditor
 		title: 'some diff' translated;
 		priority: 54;
