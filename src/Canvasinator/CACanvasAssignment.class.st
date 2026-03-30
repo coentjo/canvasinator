@@ -50,10 +50,12 @@ CACanvasAssignment >> due_at [
 { #category : 'as yet unclassified' }
 CACanvasAssignment >> gtRubricFor: aView [
 	<gtView>
-	^ aView list
+	^ aView columnedList
 		title: 'Rubrics';
 		priority: 10;
 		items: self rubric_settings;
+		column: 'Name' text: [ :each | each description asRopedText foreground: Color orange darker];
+		column: 'Description' text: [ :each | each long_description];
 		actionButtonIcon: BrGlamorousVectorIcons target
 			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
