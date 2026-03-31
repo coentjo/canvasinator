@@ -26,6 +26,16 @@ CASemester >> fromSnippet: aSnippet [
 	fromSnippet := aSnippet
 ]
 
+{ #category : 'as yet unclassified' }
+CASemester >> gtCoursesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Courses';
+		priority: 5;
+		items: canvasCourses;
+		column: 'name' text: [ : each | each printString]
+]
+
 { #category : 'accessing' }
 CASemester >> name: aString [ 
 	name := aString
