@@ -3,8 +3,7 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'rawData',
-		'parent',
-		'courseId'
+		'parent'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -142,7 +141,7 @@ CACanvasPerson >> gtPagesFor: aView [
 	^ aView columnedList
 		title: 'Pages';
 		priority: 4;
-		items: (self potentialPagesForMe ifEmpty: [{self createPage: self printString}]);
+		items: (self potentialPagesForMe ifEmpty: [ {self createPage: self printString} ]);
 		column: 'Pages?'
 			text: [ :each | 
 				| color page |
@@ -150,7 +149,13 @@ CACanvasPerson >> gtPagesFor: aView [
 				color := (page title endsWith: 'coachee' caseSensitive: false)
 						ifTrue: [ Color orange ]
 						ifFalse: [ Color gray ].
-				page "?title" asString asRopedText foreground: color ]
+				page asString asRopedText foreground: color	"?title" ];
+		actionButtonIcon: BrGlamorousVectorIcons roadmap
+			tooltip: 'feedpulse'
+			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				WebBrowser
+					openOn: 'https://fhict.instructure.com/courses/' , self courseId asString
+							, '/external_tools/1067' ]
 ]
 
 { #category : 'as yet unclassified' }
