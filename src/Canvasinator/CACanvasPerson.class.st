@@ -142,7 +142,7 @@ CACanvasPerson >> gtPagesFor: aView [
 		title: 'Pages';
 		priority: 4;
 		items: (self potentialPagesForMe ifEmpty: [ {self createPage: self printString} ]);
-		column: 'Pages?'
+		column: 'Pages'
 			text: [ :each | 
 				| color page |
 				page := each.
@@ -198,7 +198,7 @@ CACanvasPerson >> potentialPagesForMe [
 	onPcn := self potentialPagesOfWhichTitleContains: self iAccountNumber.
 	onNamePart := self potentialPagesOfWhichTitleContains: (self sortable_name first: 7).
 	^ (onPcn collect: [ : each | each "-> (Color green muchDarker)"])
-	, (onNamePart collect: [ : each | each "-> Color gray"])
+	", (onNamePart collect: [ : each | each ])"
 ]
 
 { #category : 'as yet unclassified' }

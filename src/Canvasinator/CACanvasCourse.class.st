@@ -95,6 +95,7 @@ CACanvasCourse >> fromSnippet: thisSnippet [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> gtAsignmentsFor: aView [
 	<gtView>
+	"GET /api/v1/courses/:course_id/rubrics/:rubric_id?include=assessments&style=full"
 	^ aView columnedList
 		title: 'Assignments';
 		priority: 10;
@@ -141,7 +142,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 				allPages
 					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color gray ] ];
-		send: [ :each | each value ];
+		send: [ :each | each value];
 		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'stubru'
 			action: [ :aButton | WebBrowser openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
@@ -150,6 +151,12 @@ CACanvasCourse >> gtPeopleFor: aView [
 			action: [ :aButton | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ];
+		actionButtonIcon: BrGlamorousVectorIcons actualsize
+			tooltip: 'grades'
+			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				WebBrowser
+					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
+							, '/gradebook' ];
 		actionButtonIcon: BrGlamorousVectorIcons robot
 			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
