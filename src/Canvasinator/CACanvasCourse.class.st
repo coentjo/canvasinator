@@ -217,7 +217,7 @@ CACanvasCourse >> modules [
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
-	^ rawDatax collect: [ :each | CACanvasModule on: each ]
+	^ rawDatax collect: [ :each | CACanvasModule on: each withParent: self ]
 ]
 
 { #category : 'as yet unclassified' }
