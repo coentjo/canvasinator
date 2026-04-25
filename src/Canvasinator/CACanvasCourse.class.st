@@ -135,7 +135,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 35;
 		column: 'name'
-			text: [ :each "each sortable_name asRopedText" | each sortByThisUsing: allPages ]
+			text: [ :each | each sortByThisUsing: allPages ]
 			width: 200;
 		column: 'page'
 			text: [ :each | 
@@ -146,24 +146,24 @@ CACanvasCourse >> gtPeopleFor: aView [
 		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'stubru'
 			action: [ :aButton | WebBrowser openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
-		actionButtonIcon: BrGlamorousVectorIcons async
+		actionButtonLabel: 'Prtfl'
 			tooltip: 'portflow'
 			action: [ :aButton | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ];
-		actionButtonIcon: BrGlamorousVectorIcons actualsize
+		actionButtonLabel: 'Grades'
 			tooltip: 'grades'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
 							, '/gradebook' ];
-		actionButtonIcon: BrGlamorousVectorIcons robot
+		actionButtonLabel: 'att'
 			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
 							, '/external_tools/1663' ];
-		actionButtonIcon: BrGlamorousVectorIcons roadmap
+		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
