@@ -150,7 +150,7 @@ CACanvasPerson >> gtPagesFor: aView [
 						ifTrue: [ Color orange ]
 						ifFalse: [ Color gray ].
 				page asString asRopedText foreground: color	"?title" ];
-		actionButtonIcon: BrGlamorousVectorIcons roadmap
+		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser

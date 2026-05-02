@@ -72,6 +72,22 @@ CACanvasCourse >> assignments [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> assignments2 [
+	"remark: limited nr (?per_page=110)"
+	| reply|
+	reply := ZnClient new
+			url: 'https://fhict.instructure.com/' , 'api/v1/' 
+				, 'courses/' , self id asString
+				, '/rubrics/_1178?include=assessments&style=full';
+			headerAt: 'Authorization' put: ' Bearer ' , self token;
+			get.
+		^ reply
+			"
+	rawDatax := STON fromString: reply.
+	^ rawDatax collect: [ :each | CACanvasAssignment on: each ]"
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> courseId [
 	^ courseId
 ]
@@ -90,6 +106,23 @@ CACanvasCourse >> course_code [
 CACanvasCourse >> fromSnippet: thisSnippet [ 
 	"store snippet for now, although at this moment I only need the database, which I can get from this snippet"
 	fromSnippet := thisSnippet
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtAsignments2For: aView [
+	<gtView>
+	"GET /api/v1/courses/:course_id/rubrics/:rubric_id?include=assessments&style=full"
+	^ aView columnedList
+		title: 'Assignments2';
+		priority: 11;
+		items: (self assignments2 "sort: [ :a :b | a due_at <= b due_at ]");
+		column: 'x' text: [ :each | each  ]
+"		column: 'date' text: [ :each | each dueRoped] width: 80;
+		column: 'name' text: [ :each | each name asRopedText foreground: each dueDateColor ];
+		column: 'obj' text: [ :each | [each asString asRopedText foreground: each dueDateColor ] onErrorDo: ['_'] ]"
+		.
+		
+		
 ]
 
 { #category : 'as yet unclassified' }
