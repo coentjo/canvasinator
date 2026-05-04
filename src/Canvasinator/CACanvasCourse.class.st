@@ -163,7 +163,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView columnedList
 		title: 'People';
 		priority: 5;
-		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
+		items: (((self people: 1), (self people: 2), (self people: 3)) sort: [ :a :b | a sortByThis <= b sortByThis ]);
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 35;
@@ -264,24 +264,23 @@ CACanvasCourse >> pageFor: anIAccountNr [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasCourse >> people [
+CACanvasCourse >> people: aPageNr [
 	"remark: limited nr of people (?per_page=110)"
 
 	"courseId := 15575 asString."
+
 	"example: ""https://fhict.instructure.com/courses/15575/users"
 
-	| reply rawDatax nrPerPage all|
-	nrPerPage := 150 asString.
+	| reply rawDatax nrPerPage all page |
+	nrPerPage := 100 asString.
 	reply := ZnClient new
-			url: 'https://fhict.instructure.com/' , 'api/v1/' 
-				, 'courses/' , self id asString
-				, '/users?per_page=' , nrPerPage;
+			url: 'https://fhict.instructure.com/' , 'api/v1/' , 'courses/' , self id asString
+					, '/users?per_page=' , nrPerPage , '&page=' , aPageNr asString;
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
 	rawDatax := STON fromString: reply.
-	all := rawDatax collect: [ :each | CACanvasPerson on: each withParent: self].
+	all := rawDatax collect: [ :each | CACanvasPerson on: each withParent: self ].
 	^ all reject: [ :each | each isTeacher ]
-	
 ]
 
 { #category : 'as yet unclassified' }
