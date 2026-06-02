@@ -153,6 +153,7 @@ CACanvasPerson >> gtPagesFor: aView [
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				Clipboard clipboardText: 'wk12 - Coen'.
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , self courseId asString
 							, '/external_tools/1067' ]

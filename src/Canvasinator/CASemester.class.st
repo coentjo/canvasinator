@@ -4,11 +4,22 @@ Class {
 	#instVars : [
 		'name',
 		'fromSnippet',
-		'canvasCourses'
+		'canvasCourses',
+		'weekday'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
 }
+
+{ #category : 'accessing' }
+CASemester >> addCanvasCourse: aCourseId day: aString for: aString1 [ 
+	| course |
+	course := (CACanvasCourse courseId: aCourseId fromSnippet: fromSnippet)
+		weekday: aString; 
+		yourself.
+	self canvasCourses add: course
+
+]
 
 { #category : 'accessing' }
 CASemester >> addCanvasCourse: aCourseId for: aString [ 
@@ -33,7 +44,9 @@ CASemester >> gtCoursesFor: aView [
 		title: 'Courses';
 		priority: 5;
 		items: canvasCourses;
-		column: 'name' text: [ : each | each printString]
+		column: 'day'  text: [ :each | each weekday ] weight: 0.1;
+		column: 'name' text: [ :each | each printString]
+
 ]
 
 { #category : 'accessing' }
@@ -44,4 +57,14 @@ CASemester >> name: aString [
 { #category : 'as yet unclassified' }
 CASemester >> printOn: aStream [
 	aStream nextPutAll: name
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> weekday [
+	^ weekday
+]
+
+{ #category : 'accessing' }
+CASemester >> weekday: aString [ 
+	weekday := aString
 ]

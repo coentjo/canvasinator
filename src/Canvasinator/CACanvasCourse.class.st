@@ -5,7 +5,8 @@ Class {
 		'rawData',
 		'token',
 		'courseId',
-		'fromSnippet'
+		'fromSnippet',
+		'weekday'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -199,6 +200,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				Clipboard clipboardText: 'wk12 - Coen'.
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
 							, '/external_tools/1067' ]
@@ -329,4 +331,14 @@ canvasTokenFile := (FileLocator home / 'tokens' / 'token_canvas.txt').
 { #category : 'accessing' }
 CACanvasCourse >> token: aToken [ 
 	token := aToken
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> weekday [
+	^ weekday
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> weekday: aString [
+	weekday := aString
 ]
