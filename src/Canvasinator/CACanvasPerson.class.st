@@ -210,9 +210,8 @@ CACanvasPerson >> potentialPagesOfWhichTitleContains: aPartOfAPageTitle [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> printOn: aStream [
 	aStream
-		nextPutAll: self iAccountNumber;
-		nextPutAll: '.';
 		nextPutAll: self sortable_name;
+		nextPutAll: self iAccountNumber;
 		nextPutAll: '.';
 		nextPutAll: self semesterAanduiding	"semester-aanduiding: YYYY02 of YYYY08"
 ]
@@ -230,9 +229,11 @@ CACanvasPerson >> semesterAanduiding [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> sortByThis [
 	| pages |
-	pages := self potentialPagesForMe.
-	"Person with a Page should be at the top"
-	^ (pages size > 0 ifTrue: [''] ifFalse: ['zzzz']), self sortable_name
+	pages := self potentialPagesForMe.	"Page with 'coachee' in title should be on top, 
+	next: Person with a Page should be at the top"
+	^ (pages ifEmpty: ['z'] ifNotEmpty: [(pages first title endsWith: 'coachee') ifTrue: 'c' ifFalse: 'n'])
+		, (pages size > 0 ifTrue: [ '' ] ifFalse: [ 'zzzz' ]) 
+		, self sortable_name
 ]
 
 { #category : 'as yet unclassified' }
