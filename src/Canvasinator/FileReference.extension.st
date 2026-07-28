@@ -47,7 +47,7 @@ FileReference >> caViewDiff2For: aView [
 	start := '/Users/croco2/Downloads/replace-me-by-an-existing-file-to-be-useful' asFileReference .
 	^ aView textEditor
 		title: 'some diff' translated;
-		priority: 54;
+		priority: 60;
 		text: [ :anEditor | 
 			GtEpiceaDiffStencil new
 				from: start contents;
