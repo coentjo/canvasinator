@@ -100,7 +100,7 @@ CACanvasCourse >> courseId: aCourseId [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> course_code [
-	^ rawData at: 'course_code'
+	^ rawData at: 'course_code' ifAbsent: '-?-?-'
 ]
 
 { #category : 'accessing' }
