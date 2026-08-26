@@ -45,7 +45,7 @@ CASemester >> gtCoursesFor: aView [
 		priority: 5;
 		items: canvasCourses;
 		column: 'day'  text: [ :each | each weekday ] weight: 0.1;
-		column: 'name' text: [ :each | each printString]
+		column: 'name' text: [ :each | each printString ]
 
 ]
 

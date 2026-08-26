@@ -153,7 +153,7 @@ CACanvasPerson >> gtPagesFor: aView [
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
-				Clipboard clipboardText: 'wk12 - Coen'.
+				Clipboard clipboardText: 'wk01 - Coen'.
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , self courseId asString
 							, '/external_tools/1067' ]
@@ -198,8 +198,7 @@ CACanvasPerson >> potentialPagesForMe [
 	"self potentialPagesOfWhichTitleContains: self iAccountNumber"
 	onPcn := self potentialPagesOfWhichTitleContains: self iAccountNumber.
 	onNamePart := self potentialPagesOfWhichTitleContains: (self sortable_name first: 7).
-	^ (onPcn collect: [ : each | each "-> (Color green muchDarker)"])
-	", (onNamePart collect: [ : each | each ])"
+	^ (onPcn collect: [ : each | each ])
 ]
 
 { #category : 'as yet unclassified' }
@@ -210,10 +209,10 @@ CACanvasPerson >> potentialPagesOfWhichTitleContains: aPartOfAPageTitle [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> printOn: aStream [
 	aStream
-		nextPutAll: self sortable_name;
-		nextPutAll: self iAccountNumber;
+		nextPutAll: self semesterAanduiding	"semester-aanduiding: YYYY02 of YYYY08nj (nj: najaar)";
 		nextPutAll: '.';
-		nextPutAll: self semesterAanduiding	"semester-aanduiding: YYYY02 of YYYY08"
+		nextPutAll: self sortable_name;
+		nextPutAll: self iAccountNumber
 ]
 
 { #category : 'as yet unclassified' }
@@ -223,7 +222,7 @@ CACanvasPerson >> rawData: personRawData [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> semesterAanduiding [
-	^ '202602'
+	^ '202608nj'
 ]
 
 { #category : 'as yet unclassified' }
