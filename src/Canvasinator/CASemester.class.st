@@ -49,6 +49,18 @@ CASemester >> gtCoursesFor: aView [
 
 ]
 
+{ #category : 'as yet unclassified' }
+CASemester >> gtLiveFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Live';
+		priority: 4;
+		items: canvasCourses;
+		column: 'day'  text: [ :each | each weekday ] weight: 0.1;
+		column: 'name' text: [ :each | each printString ]
+
+]
+
 { #category : 'accessing' }
 CASemester >> name: aString [ 
 	name := aString
