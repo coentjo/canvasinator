@@ -50,6 +50,17 @@ CASemester >> gtCoursesFor: aView [
 ]
 
 { #category : 'as yet unclassified' }
+CASemester >> gtDirectoriesFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Dirs';
+		priority: 8;
+		object: [FileLocator home / self name];
+		view: #gtTreeFor:
+
+]
+
+{ #category : 'as yet unclassified' }
 CASemester >> gtLiveFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -59,6 +70,11 @@ CASemester >> gtLiveFor: aView [
 		column: 'day'  text: [ :each | each weekday ] weight: 0.1;
 		column: 'name' text: [ :each | each printString ]
 
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> name [
+	^ name
 ]
 
 { #category : 'accessing' }
