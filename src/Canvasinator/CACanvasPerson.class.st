@@ -63,7 +63,7 @@ CACanvasPerson >> gtDirectoriesFor: aView [
 	^ aView forward
 		title: 'Dirs';
 		priority: 8;
-		object: [FileLocator home / 'cohort202608' / self iAccountNumber];
+		object: [FileLocator home / 'cohort202608' / 'student' / self iAccountNumber];
 		view: #gtTreeFor:
 
 ]
