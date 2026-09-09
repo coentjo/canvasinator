@@ -73,6 +73,17 @@ CASemester >> gtLiveFor: aView [
 ]
 
 { #category : 'as yet unclassified' }
+CASemester >> gtTodosFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Todos';
+		priority: 9;
+		items: [self todos ];
+		column: 'name' text: [ :each | each printString ]
+
+]
+
+{ #category : 'as yet unclassified' }
 CASemester >> name [
 	^ name
 ]
@@ -85,6 +96,12 @@ CASemester >> name: aString [
 { #category : 'as yet unclassified' }
 CASemester >> printOn: aStream [
 	aStream nextPutAll: name
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> todos [
+	^ (fromSnippet database pages select: [ :page | page title beginsWith: 'FP' ])
+	, (fromSnippet database pages select: [ :page | page title beginsWith: 'todo' ])
 ]
 
 { #category : 'as yet unclassified' }
