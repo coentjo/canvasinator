@@ -56,6 +56,19 @@ CACanvasPerson >> grades [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasPerson >> gtDirectoriesFor: aView [
+	<gtView>
+	(Date today monthIndex < 9) ifTrue: ["Warn in time for next semester!" self inform: 'CACanvasPerson>>gtDirectoriesFor: should use real Datum instead of this hardcoded one!']
+	.
+	^ aView forward
+		title: 'Dirs';
+		priority: 8;
+		object: [FileLocator home / 'cohort202608' / self iAccountNumber];
+		view: #gtTreeFor:
+
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasPerson >> gtGradesFor: aView [
 	<gtView>
 	| grades |
