@@ -100,6 +100,7 @@ CASemester >> printOn: aStream [
 
 { #category : 'as yet unclassified' }
 CASemester >> todos [
+ self inform: 'Great! But take care: only todo''s in KnowBase: ', self printString.
 	^ (fromSnippet database pages select: [ :page | page title beginsWith: 'FP' ])
 	, (fromSnippet database pages select: [ :page | page title beginsWith: 'todo' ])
 ]

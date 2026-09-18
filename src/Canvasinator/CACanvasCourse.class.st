@@ -174,7 +174,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 		column: 'page'
 			text: [ :each | 
 				allPages
-					detect: [ :page | page title matches: '*' , each iAccountNumber , '*' ]
+					detect: [ :page | page title matchesRegex: '.*' , each iAccountNumber , '.*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color gray ] ];
 		send: [ :each | each value];
 		actionButtonIcon: BrGlamorousVectorIcons play
