@@ -154,7 +154,7 @@ CACanvasPerson >> gtPagesFor: aView [
 	^ aView columnedList
 		title: 'Pages';
 		priority: 4;
-		items: (self potentialPagesForMe ifEmpty: [ {self createPage: self printString} ]);
+		items: ((self potentialPagesForMe sorted: [ :p1 :p2 | p1 title size < p2 title size])ifEmpty: [ {self createPage: self printString} ]);
 		column: 'Pages'
 			text: [ :each | 
 				| color page |
@@ -166,7 +166,7 @@ CACanvasPerson >> gtPagesFor: aView [
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
-				Clipboard clipboardText: 'wk01 - Coen'.
+				Clipboard clipboardText: 'wk04 - Coen'.
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , self courseId asString
 							, '/external_tools/1067' ]
