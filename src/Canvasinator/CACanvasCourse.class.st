@@ -192,6 +192,9 @@ CACanvasCourse >> gtPeopleFor: aView [
 		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'stubru'
 			action: [ :aButton | WebBrowser openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
+		actionButtonIcon: BrGlamorousVectorIcons play
+			tooltip: 'Persian'
+			action: [ :aButton | WebBrowser openOn: 'https://www.youtube.com/watch?v=lCvRP8FhJlI' ];
 		actionButtonLabel: 'Prtfl'
 			tooltip: 'portflow'
 			action: [ :aButton | 

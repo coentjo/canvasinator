@@ -78,11 +78,12 @@ CASemester >> gtTodosFor: aView [
 	^ aView columnedList
 		title: 'Todos';
 		priority: 9;
-		items: [self todos sort: [ :a :b | a sortingIndex < b sortingIndex ] ];
-		column: 'name' text: [ :each | 
-			| parts |
-			parts := each printString.
-			parts asRopedText background: Color yellow ]
+		items: [self todosSorted ];
+		column: 'name' text: [ :page | 
+			| parts part1 |
+			parts := page title splitOn: $. .
+			part1 := (parts at: 1) asRopedText background: Color yellow .
+			part1, ' - ' asRopedText, parts asRopedText]
 ]
 
 { #category : 'as yet unclassified' }
@@ -110,6 +111,11 @@ CASemester >> todos [
  self inform: 'Great! But take care: only todo''s in KnowBase: ', self printString.
 	^ (self pages select: [ :page | page title matchesRegexIgnoringCase: '.*todo.*' ])
 	, (self pages select: [ :page | page title matchesRegexIgnoringCase: '.*FP.*' ])
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> todosSorted [
+	^ self todos sort: [ :a :b | a sortingIndex < b sortingIndex ]
 ]
 
 { #category : 'as yet unclassified' }
