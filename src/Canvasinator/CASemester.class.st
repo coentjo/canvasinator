@@ -78,9 +78,11 @@ CASemester >> gtTodosFor: aView [
 	^ aView columnedList
 		title: 'Todos';
 		priority: 9;
-		items: [self todos ];
-		column: 'name' text: [ :each | each printString ]
-
+		items: [self todos sort: [ :a :b | a sortingIndex < b sortingIndex ] ];
+		column: 'name' text: [ :each | 
+			| parts |
+			parts := each printString.
+			parts asRopedText background: Color yellow ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -94,6 +96,11 @@ CASemester >> name: aString [
 ]
 
 { #category : 'as yet unclassified' }
+CASemester >> pages [
+	^ fromSnippet database pages
+]
+
+{ #category : 'as yet unclassified' }
 CASemester >> printOn: aStream [
 	aStream nextPutAll: name
 ]
@@ -101,8 +108,8 @@ CASemester >> printOn: aStream [
 { #category : 'as yet unclassified' }
 CASemester >> todos [
  self inform: 'Great! But take care: only todo''s in KnowBase: ', self printString.
-	^ (fromSnippet database pages select: [ :page | page title beginsWith: 'FP' ])
-	, (fromSnippet database pages select: [ :page | page title beginsWith: 'todo' ])
+	^ (self pages select: [ :page | page title matchesRegexIgnoringCase: '.*todo.*' ])
+	, (self pages select: [ :page | page title matchesRegexIgnoringCase: '.*FP.*' ])
 ]
 
 { #category : 'as yet unclassified' }

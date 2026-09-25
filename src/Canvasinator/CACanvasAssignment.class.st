@@ -76,6 +76,11 @@ CACanvasAssignment >> printOn: aStream [
 		nextPutAll: self name asString
 ]
 
+{ #category : 'as yet unclassified' }
+CACanvasAssignment >> published [
+^ (rawData at: 'published' ifAbsent: '-') ifNil: ['-']
+]
+
 { #category : 'accessing' }
 CACanvasAssignment >> rawData: dictionary [ 
 	rawData := dictionary
