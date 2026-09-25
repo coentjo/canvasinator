@@ -67,7 +67,7 @@ CASemester >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 4;
 		items: self canvasCourses, '-', self todos; 
-		column: 'key'  text: [ :each | [each weekday asRopedText background: Color random lighter] onErrorDo:  ['todo' asRopedText background: Color orange]] weight: 0.1;
+		column: 'key'  text: [ :each | [each weekday asRopedText ] onErrorDo:  ['todo' asRopedText background: Color orange]] weight: 0.1;
 		column: 'name' text: [ :each | each asString ]
 
 ]

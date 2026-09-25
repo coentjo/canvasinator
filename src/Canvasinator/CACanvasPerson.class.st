@@ -86,7 +86,7 @@ CACanvasPerson >> gtLiveFor: aView [
 	pages := self potentialPagesForMe.
 	^ aView explicit
 		title: 'Person';
-		priority: 5;
+		priority: 6;
 		stencil: [ | vertical |
 			vertical := BrVerticalPane new.
 			vertical
@@ -153,7 +153,7 @@ CACanvasPerson >> gtPagesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Pages';
-		priority: 4;
+		priority: 7;
 		items: ((self potentialPagesForMe sorted: [ :p1 :p2 | p1 title size < p2 title size])ifEmpty: [ {self createPage: self printString} ]);
 		column: 'Pages'
 			text: [ :each | 

@@ -142,6 +142,17 @@ CACanvasCourse >> gtAsignmentsFor: aView [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> gtLiveFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Live';
+		priority: 5;
+		items: { 'always' . '    remember' . '        you are unique' . '          ...just like everybody else' };
+		column: 'x' text: [ :s | s asRopedText background: Color yellow]
+
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> gtModulesFor: aView [
 	<gtView>
 	^ aView columnedList
@@ -152,7 +163,7 @@ CACanvasCourse >> gtModulesFor: aView [
 		column: 'module'
 			text: [ :each | 
 				each asRopedText
-					foreground: (each published ifTrue: [ Color purple ] ifFalse: [ Color lightGray ]) ]
+					foreground: (each published ifTrue: [ Color orange ] ifFalse: [ Color lightGray ]) ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -163,7 +174,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	allPages := self allLepiterPages.
 	^ aView columnedList
 		title: 'People';
-		priority: 5;
+		priority: 8;
 		items: (((self people: 1), (self people: 2), (self people: 3)) sort: [ :a :b | a sortByThis <= b sortByThis ]);
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
