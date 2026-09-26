@@ -27,12 +27,13 @@ CACanvasAssignment >> date [
 
 { #category : 'as yet unclassified' }
 CACanvasAssignment >> dueDateColor [
-	^ 
-	(self due_at asString <= Date today yyyymmdd)
-		ifTrue: [	Color red] 
-		ifFalse: [	
-			(self due_at asString <= (Date today addDays: 8) yyyymmdd) ifTrue: [Color orange] ifFalse: [
-		Color green muchDarker]]
+	^ self published
+		ifFalse: [ Color veryVeryLightGray ]
+		ifTrue: [ self due_at asString <= Date today yyyymmdd
+				ifTrue: [ Color red ]
+				ifFalse: [ self due_at asString <= (Date today addDays: 8) yyyymmdd
+						ifTrue: [ Color orange ]
+						ifFalse: [ Color green muchDarker ] ] ]
 ]
 
 { #category : 'as yet unclassified' }

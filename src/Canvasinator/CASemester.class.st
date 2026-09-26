@@ -82,8 +82,8 @@ CASemester >> gtTodosFor: aView [
 		column: 'name' text: [ :page | 
 			| parts part1 |
 			parts := page title splitOn: $. .
-			part1 := (parts at: 1) asRopedText background: Color yellow .
-			part1, ' - ' asRopedText, parts asRopedText]
+			part1 := (parts at: 1) asRopedText background: Color orange .
+			part1, ' - ' asRopedText, page title asRopedText]
 ]
 
 { #category : 'as yet unclassified' }
