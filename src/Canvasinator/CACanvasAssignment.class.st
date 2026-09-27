@@ -89,7 +89,7 @@ CACanvasAssignment >> rawData: dictionary [
 
 { #category : 'as yet unclassified' }
 CACanvasAssignment >> rubric_settings [
-	^ (rawData at: 'rubric') collect: [ :each | CARubricsSet on: each]
+	^ (rawData at: 'rubric' ifAbsent: [CARubricsSetNoRubric new]) collect: [ :each | CARubricsSet on: each]
 ]
 
 { #category : 'as yet unclassified' }
