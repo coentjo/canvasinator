@@ -31,6 +31,11 @@ CASemester >> canvasCourses [
 	^canvasCourses ifNil: [ canvasCourses := OrderedCollection new]
 ]
 
+{ #category : 'as yet unclassified' }
+CASemester >> contextName [
+	^ self printString
+]
+
 { #category : 'accessing' }
 CASemester >> fromSnippet: aSnippet [ 
 	"store snippet for now, although at this moment I only need the database, which I can get from this snippet"
@@ -55,7 +60,7 @@ CASemester >> gtDirectoriesFor: aView [
 	^ aView forward
 		title: 'Dirs';
 		priority: 8;
-		object: [FileLocator home / self name];
+		object: [FileLocator home / self contextName];
 		view: #gtTreeFor:
 
 ]
@@ -68,6 +73,17 @@ CASemester >> gtLiveFor: aView [
 		priority: 4;
 		items: self canvasCourses, '-', self todos; 
 		column: 'key'  text: [ :each | [each weekday asRopedText ] onErrorDo:  ['todo' asRopedText background: Color orange]] weight: 0.1;
+		column: 'name' text: [ :each | each asString ]
+
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> gtPasgesFor: aView [
+	<gtView>
+	^ aView columnedList
+		title: 'Pages';
+		priority: 8;
+		items: self relatedPages; 
 		column: 'name' text: [ :each | each asString ]
 
 ]
@@ -104,6 +120,11 @@ CASemester >> pages [
 { #category : 'as yet unclassified' }
 CASemester >> printOn: aStream [
 	aStream nextPutAll: name
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> relatedPages [
+	^ self pages select: [ :page | page title matchesRegexIgnoringCase: '.*', self contextName, '.*' ]
 ]
 
 { #category : 'as yet unclassified' }
