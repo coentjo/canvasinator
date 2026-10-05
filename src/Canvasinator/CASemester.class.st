@@ -60,7 +60,11 @@ CASemester >> gtDirectoriesFor: aView [
 	^ aView forward
 		title: 'Dirs';
 		priority: 8;
-		object: [FileLocator home / self contextName];
+		object: [ | buf |
+			buf := 'cohort'.
+			self contextName do: [ :char |
+				char isDigit ifTrue: [ buf := buf, char asString ]].
+				FileLocator home / buf];
 		view: #gtTreeFor:
 
 ]
@@ -78,7 +82,7 @@ CASemester >> gtLiveFor: aView [
 ]
 
 { #category : 'as yet unclassified' }
-CASemester >> gtPasgesFor: aView [
+CASemester >> gtPagesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Pages';
