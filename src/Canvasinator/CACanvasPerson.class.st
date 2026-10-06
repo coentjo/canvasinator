@@ -22,6 +22,11 @@ CACanvasPerson >> allLepiterPages [
 	^ parent allLepiterPages
 ]
 
+{ #category : 'accessing' }
+CACanvasPerson >> contextName [
+	^ 'cohort202608'
+]
+
 { #category : 'as yet unclassified' }
 CACanvasPerson >> courseId [
 	^ parent courseId
@@ -34,6 +39,11 @@ CACanvasPerson >> createPage: aPageName [
 			addSnippet: (LeTextSnippet new string: 'wk');
 			title: aPageName;
 			yourself)
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasPerson >> directory [
+	^ FileLocator home / self contextName / 'student' / self iAccountNumber
 ]
 
 { #category : 'as yet unclassified' }
@@ -58,14 +68,17 @@ CACanvasPerson >> grades [
 { #category : 'as yet unclassified' }
 CACanvasPerson >> gtDirectoriesFor: aView [
 	<gtView>
-	(Date today monthIndex < 9) ifTrue: ["Warn in time for next semester!" self inform: 'CACanvasPerson>>gtDirectoriesFor: should use real Datum instead of this hardcoded one!']
-	.
+	Date today monthIndex < 9
+		ifTrue: [  "Warn in time for next semester!"self
+				inform: 'CACanvasPerson>>gtDirectoriesFor: should use real Datum instead of this hardcoded one!' ].
 	^ aView forward
 		title: 'Dirs';
 		priority: 8;
-		object: [FileLocator home / 'cohort202608' / 'student' / self iAccountNumber];
-		view: #gtTreeFor:
-
+		object: [ self directory ];
+		view: #gtTreeFor:;
+		actionButtonIcon: BrGlamorousVectorIcons link
+			tooltip: 'open'
+			action: [ :dir | WebBrowser openOn: self directory pathString ]
 ]
 
 { #category : 'as yet unclassified' }
