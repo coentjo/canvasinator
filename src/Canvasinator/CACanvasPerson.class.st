@@ -1,6 +1,6 @@
 Class {
 	#name : 'CACanvasPerson',
-	#superclass : 'Object',
+	#superclass : 'CABase',
 	#instVars : [
 		'rawData',
 		'parent'
@@ -184,7 +184,7 @@ CACanvasPerson >> gtPagesFor: aView [
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
-				Clipboard clipboardText: 'wk04 - Coen'.
+				Clipboard clipboardText: 'wk07 - Coen'.
 				WebBrowser
 					openOn: 'https://fhict.instructure.com/courses/' , self courseId asString
 							, '/external_tools/1067' ]

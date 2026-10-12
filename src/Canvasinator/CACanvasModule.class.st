@@ -1,6 +1,6 @@
 Class {
 	#name : 'CACanvasModule',
-	#superclass : 'Object',
+	#superclass : 'CABase',
 	#instVars : [
 		'rawData',
 		'rawDatax',

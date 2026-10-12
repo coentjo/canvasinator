@@ -1,6 +1,6 @@
 Class {
 	#name : 'CACanvasAssignment',
-	#superclass : 'Object',
+	#superclass : 'CABase',
 	#instVars : [
 		'rawData'
 	],

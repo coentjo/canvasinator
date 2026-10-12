@@ -1,6 +1,6 @@
 Class {
 	#name : 'CAStudent',
-	#superclass : 'Object',
+	#superclass : 'CABase',
 	#instVars : [
 		'number',
 		'name',

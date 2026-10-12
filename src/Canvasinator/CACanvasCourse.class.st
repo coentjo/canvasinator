@@ -1,6 +1,6 @@
 Class {
 	#name : 'CACanvasCourse',
-	#superclass : 'Object',
+	#superclass : 'CABase',
 	#instVars : [
 		'rawData',
 		'token',
