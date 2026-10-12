@@ -144,11 +144,11 @@ CASemester >> relatedPages [
 
 { #category : 'as yet unclassified' }
 CASemester >> todos [
-	"self inform: 'Great! But take care: only todo''s in KnowBase: ', self printString."
 	| pages |
 	pages := self allPages.
 	^ (pages select: [ :page | page title matchesRegexIgnoringCase: '.*todo.*' ])
 	, (pages select: [ :page | page title matchesRegexIgnoringCase: '.*FP.*' ])
+	, (pages select: [ :page | page title matchesRegexIgnoringCase: '.*ongoing.*' ])
 ]
 
 { #category : 'as yet unclassified' }
