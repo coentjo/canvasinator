@@ -26,6 +26,17 @@ CASemester >> addCanvasCourse: aCourseId for: aString [
 	self canvasCourses add: (CACanvasCourse courseId: aCourseId fromSnippet: fromSnippet)
 ]
 
+{ #category : 'as yet unclassified' }
+CASemester >> allPages [
+	"SHOULD BE DONE NICER (but not now)"
+	| allPages |
+	allPages := OrderedCollection new.
+	fromSnippet database parent databases do: [ :db |
+		allPages addAll: db pages
+	].
+	^ allPages
+]
+
 { #category : 'accessing' }
 CASemester >> canvasCourses [
 	^canvasCourses ifNil: [ canvasCourses := OrderedCollection new]
@@ -75,7 +86,7 @@ CASemester >> gtLiveFor: aView [
 	^ aView columnedList
 		title: 'Live';
 		priority: 4;
-		items: self canvasCourses, '-', self todos; 
+		items: self canvasCourses, '-', self todos sorted; 
 		column: 'key'  text: [ :each | [each weekday asRopedText ] onErrorDo:  ['todo' asRopedText background: Color orange]] weight: 0.1;
 		column: 'name' text: [ :each | each asString ]
 
@@ -133,9 +144,11 @@ CASemester >> relatedPages [
 
 { #category : 'as yet unclassified' }
 CASemester >> todos [
- self inform: 'Great! But take care: only todo''s in KnowBase: ', self printString.
-	^ (self pages select: [ :page | page title matchesRegexIgnoringCase: '.*todo.*' ])
-	, (self pages select: [ :page | page title matchesRegexIgnoringCase: '.*FP.*' ])
+	"self inform: 'Great! But take care: only todo''s in KnowBase: ', self printString."
+	| pages |
+	pages := self allPages.
+	^ (pages select: [ :page | page title matchesRegexIgnoringCase: '.*todo.*' ])
+	, (pages select: [ :page | page title matchesRegexIgnoringCase: '.*FP.*' ])
 ]
 
 { #category : 'as yet unclassified' }
