@@ -89,6 +89,11 @@ CACanvasCourse >> assignments2 [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> canvasBaseUrl [
+	^ 'https://fhict.instructure.com/courses/'
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> courseId [
 	^ courseId
 ]
@@ -176,7 +181,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView columnedList
 		title: 'People';
 		priority: 8;
-		items: (((self people: 1), (self people: 2), (self people: 3)) sort: [ :a :b | a sortByThis <= b sortByThis ]);
+		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 35;
@@ -188,7 +193,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 				allPages
 					detect: [ :page | page title matchesRegex: '.*' , each iAccountNumber , '.*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color gray ] ];
-		send: [ :each | each value];
+		send: [ :each | each value ];
 		actionButtonIcon: BrGlamorousVectorIcons play
 			tooltip: 'stubru'
 			action: [ :aButton | WebBrowser openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
@@ -202,23 +207,18 @@ CACanvasCourse >> gtPeopleFor: aView [
 					openOn: 'https://fhict.instructure.com/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ];
 		actionButtonLabel: 'Grades'
 			tooltip: 'grades'
-			action: [ :aButton "aButton phlow spawnTool: pages first" | 
-				WebBrowser
-					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
-							, '/gradebook' ];
+			action: [ :aButton "aButton phlow spawnTool: pages first" | WebBrowser openOn: self canvasBaseUrl , courseId asString , '/gradebook' ];
 		actionButtonLabel: 'att'
 			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
-					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
-							, '/external_tools/1663' ];
+					openOn: self canvasBaseUrl , courseId asString , '/external_tools/1663' ];
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
-				Clipboard clipboardText: 'wk12 - Coen'.
+				Clipboard clipboardText: 'wk07 - Coen'.
 				WebBrowser
-					openOn: 'https://fhict.instructure.com/courses/' , courseId asString
-							, '/external_tools/1067' ]
+					openOn: self canvasBaseUrl , courseId asString , '/external_tools/1067' ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -278,6 +278,22 @@ CACanvasCourse >> pageFileReference: page [
 { #category : 'as yet unclassified' }
 CACanvasCourse >> pageFor: anIAccountNr [
 	self lepDatabase pages detect: [ :p | p title asString startsWith: anIAccountNr ] ifNone: [ '-' ]
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> people [
+	| people atTheEnd index |
+	Cursor wait
+		showWhile: [ people := OrderedCollection new.
+			atTheEnd := false.
+			index := 1.
+			[ atTheEnd ]
+				whileFalse: [ | newBatch |
+					newBatch := self people: index.
+					people addAll: newBatch.
+					index := index + 1.
+					atTheEnd := newBatch size = 0 ] ].
+	^ people
 ]
 
 { #category : 'as yet unclassified' }

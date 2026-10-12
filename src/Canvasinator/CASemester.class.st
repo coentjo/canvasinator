@@ -86,10 +86,13 @@ CASemester >> gtLiveFor: aView [
 	^ aView columnedList
 		title: 'Live';
 		priority: 4;
-		items: self canvasCourses, '-', self todos sorted; 
-		column: 'key'  text: [ :each | [each weekday asRopedText ] onErrorDo:  ['todo' asRopedText background: Color orange]] weight: 0.1;
+		items: self canvasCourses , '-' , self todos sorted;
+		column: 'key'
+			text: [ :each | 
+				[ each weekday asRopedText ]
+					onErrorDo: [ 'todo' asRopedText background: Color orange ] ]
+			weight: 0.1;
 		column: 'name' text: [ :each | each asString ]
-
 ]
 
 { #category : 'as yet unclassified' }
@@ -111,10 +114,30 @@ CASemester >> gtTodosFor: aView [
 		priority: 9;
 		items: [self todosSorted ];
 		column: 'name' text: [ :page | 
-			| parts part1 |
+			| parts part1 partsWithColor result |
 			parts := page title splitOn: $. .
 			part1 := (parts at: 1) asRopedText background: Color orange .
-			part1, ' - ' asRopedText, page title asRopedText]
+"some gefrunnik... could have been nice..."
+			"parts doWithIndex: [ :each :index | 
+				color := Color lightGray.
+				(each matchesRegexIgnoringCase: '.*todo.*') 
+					ifTrue: [color := Color yellow]]."
+			partsWithColor := parts collectWithIndex: [ :each :index |
+				| color |
+				color := Color white.
+				(each matchesRegexIgnoringCase: '.*todo.*') 
+					ifTrue: [color := Color orange].
+				each -> color
+			].
+			result := ('-' asRopedText "background: Color yellow"). 
+			partsWithColor do: [ :assoc | result := result, '.' asRopedText, (assoc key asRopedText background: assoc value) ]
+			.
+			result
+			"$. asRopedText join:
+			(partsWithColor collect: [ :assoc | 
+				assoc key asRopedText background: assoc value
+			])"
+			"part1, ' - ' asRopedText, ($. join: parts) asRopedText background: color"]
 ]
 
 { #category : 'as yet unclassified' }
