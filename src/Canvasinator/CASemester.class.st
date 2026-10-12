@@ -1,6 +1,6 @@
 Class {
 	#name : 'CASemester',
-	#superclass : 'Object',
+	#superclass : 'CABase',
 	#instVars : [
 		'name',
 		'fromSnippet',
