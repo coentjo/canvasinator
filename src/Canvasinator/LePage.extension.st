@@ -6,6 +6,17 @@ LePage >> <= anotherPage [
 ]
 
 { #category : '*canvasinator' }
+LePage >> contextName [
+	| triggerWords colors |
+	triggerWords := { 'todo' . 'ongoing' }.
+	colors := { Color orange . Color veryLightGray. Color red . Color lightGray }.
+	triggerWords doWithIndex: [ :word :index | 
+		(self title matchesRegexIgnoringCase: '.*', word,'.*')
+			ifTrue: [ ^ word asRopedText background: (colors at: index) ] ].
+	^ '-' asRopedText background: Color veryLightGray lighter
+]
+
+{ #category : '*canvasinator' }
 LePage >> sortingIndex [
 	^ self printString
 ]

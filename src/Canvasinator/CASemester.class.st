@@ -44,7 +44,12 @@ CASemester >> canvasCourses [
 
 { #category : 'as yet unclassified' }
 CASemester >> contextName [
-	^ self printString
+	^ self printString asRopedText background: self defaultColor
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> defaultColor [
+	^ Color yellow
 ]
 
 { #category : 'accessing' }
@@ -89,8 +94,8 @@ CASemester >> gtLiveFor: aView [
 		items: self canvasCourses , '-' , self todos sorted;
 		column: 'key'
 			text: [ :each | 
-				[ each weekday asRopedText ]
-					onErrorDo: [ 'todo' asRopedText background: Color orange ] ]
+				[ each contextName ]
+					onErrorDo: [ '-' asRopedText background: Color gray ] ]
 			weight: 0.1;
 		column: 'name' text: [ :each | each asString ]
 ]

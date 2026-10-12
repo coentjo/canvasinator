@@ -24,7 +24,7 @@ CACanvasPerson >> allLepiterPages [
 
 { #category : 'accessing' }
 CACanvasPerson >> contextName [
-	^ 'cohort202608'
+	^ 'cohort202608' asRopedText background: self defaultColor
 ]
 
 { #category : 'as yet unclassified' }
@@ -39,6 +39,11 @@ CACanvasPerson >> createPage: aPageName [
 			addSnippet: (LeTextSnippet new string: 'wk');
 			title: aPageName;
 			yourself)
+]
+
+{ #category : 'accessing' }
+CACanvasPerson >> defaultColor [
+	^ Color lightBrown
 ]
 
 { #category : 'as yet unclassified' }

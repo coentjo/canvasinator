@@ -94,6 +94,11 @@ CACanvasCourse >> canvasBaseUrl [
 ]
 
 { #category : 'as yet unclassified' }
+CACanvasCourse >> contextName [
+	^ weekday asRopedText background: Color lightBlue
+]
+
+{ #category : 'as yet unclassified' }
 CACanvasCourse >> courseId [
 	^ courseId
 ]
@@ -181,7 +186,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView columnedList
 		title: 'People';
 		priority: 8;
-		items: (self people sort: [ :a :b | a sortByThis <= b sortByThis ]);
+		items: (self people "sort: [ :a :b | a sortByThis <= b sortByThis ]");
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 35;
