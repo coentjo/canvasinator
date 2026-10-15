@@ -114,35 +114,56 @@ CASemester >> gtPagesFor: aView [
 { #category : 'as yet unclassified' }
 CASemester >> gtTodosFor: aView [
 	<gtView>
+	| thisWk currentDay currentDayString |
+	thisWk := 'wk07'.
+	currentDay := Date today weekdayIndex - 1.
+	currentDayString := 'd0' , currentDay asString.
 	^ aView columnedList
 		title: 'Todos';
-		priority: 9;
-		items: [self todosSorted ];
-		column: 'name' text: [ :page | 
-			| parts part1 partsWithColor result |
-			parts := page title splitOn: $. .
-			part1 := (parts at: 1) asRopedText background: Color orange .
-"some gefrunnik... could have been nice..."
-			"parts doWithIndex: [ :each :index | 
-				color := Color lightGray.
-				(each matchesRegexIgnoringCase: '.*todo.*') 
-					ifTrue: [color := Color yellow]]."
-			partsWithColor := parts collectWithIndex: [ :each :index |
-				| color |
-				color := Color white.
-				(each matchesRegexIgnoringCase: '.*todo.*') 
-					ifTrue: [color := Color orange].
-				each -> color
-			].
-			result := ('-' asRopedText "background: Color yellow"). 
-			partsWithColor do: [ :assoc | result := result, '.' asRopedText, (assoc key asRopedText background: assoc value) ]
-			.
-			result
-			"$. asRopedText join:
-			(partsWithColor collect: [ :assoc | 
-				assoc key asRopedText background: assoc value
-			])"
-			"part1, ' - ' asRopedText, ($. join: parts) asRopedText background: color"]
+		priority: 10;
+		items: [ self todosSorted ];
+		column: 'co'
+			text: [ :page | (page title splitOn: $.) at: 1 ]
+			width: 55;
+		column: 'wk'
+			text: [ :page | 
+				| text |
+				text := (self titleParts: page) at: 2.
+				((text splitOn: $_) at: 1) asRopedText
+					background: ((text matchesRegexIgnoringCase: thisWk , '.*')
+							ifTrue: [ Color purple muchLighter ]
+							ifFalse: [ Color gray muchLighter ]) ]
+			width: 55;
+		column: 'd'
+			text: [ :page | 
+				| text dayString |
+				text := (page title splitOn: $.) at: 2 ifAbsent: 'x'.
+				dayString := (text splitOn: $_) at: 2 ifAbsent: '-'.
+				dayString asRopedText
+					background: ((text matchesRegexIgnoringCase: thisWk , '.*')
+							ifTrue: [ currentDayString = dayString
+									ifTrue: [ Color green lighter ]
+									ifFalse: [ Color purple muchLighter ] ]
+							ifFalse: [ Color gray muchLighter ]) ]
+			width: 65;
+		column: 'name'
+			text: [ :page | 
+				| parts part1 partsWithColor result |
+				parts := page title splitOn: $..
+				part1 := (parts at: 1) asRopedText background: Color orange.
+				partsWithColor := parts
+						collectWithIndex: [ :each :index | 
+							| color |
+							color := Color white.
+							(each matchesRegexIgnoringCase: '.*todo.*')
+								ifTrue: [ color := Color orange muchLighter ].
+							each -> color ].
+				result := '-' asRopedText.	"background: Color yellow"
+				partsWithColor
+					do: [ :assoc | 
+						result := result , '.' asRopedText
+								, (assoc key asRopedText background: assoc value) ].
+				result ]
 ]
 
 { #category : 'as yet unclassified' }
@@ -168,6 +189,11 @@ CASemester >> printOn: aStream [
 { #category : 'as yet unclassified' }
 CASemester >> relatedPages [
 	^ self pages select: [ :page | page title matchesRegexIgnoringCase: '.*', self contextName, '.*' ]
+]
+
+{ #category : 'as yet unclassified' }
+CASemester >> titleParts: page [
+	^ page title splitOn: $.
 ]
 
 { #category : 'as yet unclassified' }
