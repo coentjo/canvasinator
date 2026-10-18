@@ -6,7 +6,7 @@ Class {
 		'token',
 		'courseId',
 		'fromSnippet',
-		'weekday'
+		'contextName'
 	],
 	#category : 'Canvasinator',
 	#package : 'Canvasinator'
@@ -95,7 +95,17 @@ CACanvasCourse >> canvasBaseUrl [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> contextName [
-	^ weekday asRopedText background: Color lightBlue
+	^ contextName
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> contextName: aString [
+	contextName := aString
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> contextNameRoped [
+	^ self contextName asRopedText background: Color lightBlue
 ]
 
 { #category : 'as yet unclassified' }
@@ -367,14 +377,4 @@ canvasTokenFile := (FileLocator home / 'tokens' / 'token_canvas.txt').
 { #category : 'accessing' }
 CACanvasCourse >> token: aToken [ 
 	token := aToken
-]
-
-{ #category : 'as yet unclassified' }
-CACanvasCourse >> weekday [
-	^ weekday
-]
-
-{ #category : 'as yet unclassified' }
-CACanvasCourse >> weekday: aString [
-	weekday := aString
 ]
