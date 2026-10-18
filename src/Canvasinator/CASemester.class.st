@@ -15,7 +15,7 @@ Class {
 CASemester >> addCanvasCourse: aCourseId day: aString for: aString1 [ 
 	| course |
 	course := (CACanvasCourse courseId: aCourseId fromSnippet: fromSnippet)
-		weekday: aString; 
+		contextName: aString; 
 		yourself.
 	self canvasCourses add: course
 
@@ -47,6 +47,11 @@ CASemester >> contextName [
 	^ self printString asRopedText background: self defaultColor
 ]
 
+{ #category : 'accessing' }
+CASemester >> contextName: aString [ 
+	weekday := aString
+]
+
 { #category : 'as yet unclassified' }
 CASemester >> defaultColor [
 	^ Color yellow
@@ -65,7 +70,7 @@ CASemester >> gtCoursesFor: aView [
 		title: 'Courses';
 		priority: 5;
 		items: canvasCourses;
-		column: 'day'  text: [ :each | each weekday ] weight: 0.1;
+		column: 'day'  text: [ :each | each contextNameRoped ] weight: 0.1;
 		column: 'name' text: [ :each | each printString ]
 
 ]
@@ -213,9 +218,4 @@ CASemester >> todosSorted [
 { #category : 'as yet unclassified' }
 CASemester >> weekday [
 	^ weekday
-]
-
-{ #category : 'accessing' }
-CASemester >> weekday: aString [ 
-	weekday := aString
 ]
