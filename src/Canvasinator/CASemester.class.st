@@ -119,10 +119,9 @@ CASemester >> gtPagesFor: aView [
 { #category : 'as yet unclassified' }
 CASemester >> gtTodosFor: aView [
 	<gtView>
-	| thisWk currentDay currentDayString |
+	| thisWk currentDayString |
 	thisWk := 'wk07'.
-	currentDay := Date today weekdayIndex - 1.
-	currentDayString := 'd0' , currentDay asString.
+	currentDayString := 'd0' , (Date today weekdayIndex - 1) asString.
 	^ aView columnedList
 		title: 'Todos';
 		priority: 10;

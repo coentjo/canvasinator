@@ -11,7 +11,7 @@ CABase >> gtActionStuBruFor: anAction [
 	<gtAction>
 
 	^ anAction button
-		  icon: BrGlamorousVectorIcons play;
+		  icon: BrGlamorousVectorIcons playinspect;
 		  tooltip: 'Studio Brussel';
 		  action: [ WebBrowser openOn: 'https://www.youtube.com/watch?v=lCvRP8FhJlI' ]
 ]

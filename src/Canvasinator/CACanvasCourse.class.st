@@ -90,7 +90,7 @@ CACanvasCourse >> assignments2 [
 
 { #category : 'as yet unclassified' }
 CACanvasCourse >> canvasBaseUrl [
-	^ 'https://fhict.instructure.com/courses/'
+	^ 'https://fontysict.instructure.com'
 ]
 
 { #category : 'as yet unclassified' }
@@ -127,6 +127,41 @@ CACanvasCourse >> course_code [
 CACanvasCourse >> fromSnippet: thisSnippet [ 
 	"store snippet for now, although at this moment I only need the database, which I can get from this snippet"
 	fromSnippet := thisSnippet
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtActionFeedpulseFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousVectorIcons signal;
+		priority: 62;
+		tooltip: 'FP';
+		action: [
+				Clipboard clipboardText: 'wk08 - Coen'.
+				WebBrowser
+					openOn: self canvasBaseUrl ,'/courses/' , courseId asString , '/external_tools/1067' ]
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtActionGradesFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousVectorIcons performance;
+		priority: 58;
+		tooltip: 'Grades';
+		action: [ WebBrowser openOn: self canvasBaseUrl ,'/courses/', courseId asString , '/gradebook' ]
+]
+
+{ #category : 'as yet unclassified' }
+CACanvasCourse >> gtActionPortflowFor: anAction [
+	<gtAction>
+
+	^ anAction button
+		  icon: BrGlamorousVectorIcons hamburger;
+		  priority: 55;
+		  tooltip: 'Open Portflow';
+		  action: [ WebBrowser openOn: self canvasBaseUrl,'/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ].
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -196,7 +231,7 @@ CACanvasCourse >> gtPeopleFor: aView [
 	^ aView columnedList
 		title: 'People';
 		priority: 8;
-		items: (self people "sort: [ :a :b | a sortByThis <= b sortByThis ]");
+		items: self people;
 		column: 'nr'
 			text: [ :eachItem :eachIndex | eachIndex asRopedText foreground: Color gray ]
 			width: 35;
@@ -209,31 +244,27 @@ CACanvasCourse >> gtPeopleFor: aView [
 					detect: [ :page | page title matchesRegex: '.*' , each iAccountNumber , '.*' ]
 					ifNone: [ each iAccountNumber asRopedText foreground: Color gray ] ];
 		send: [ :each | each value ];
-		actionButtonIcon: BrGlamorousVectorIcons play
-			tooltip: 'stubru'
-			action: [ :aButton | WebBrowser openOn: 'https://www.vrt.be/vrtmax/livestream/audio/studio-brussel/' ];
-		actionButtonIcon: BrGlamorousVectorIcons play
-			tooltip: 'Persian'
-			action: [ :aButton | WebBrowser openOn: 'https://www.youtube.com/watch?v=lCvRP8FhJlI' ];
-		actionButtonLabel: 'Prtfl'
+"		actionButtonLabel: 'Prtfl'
 			tooltip: 'portflow'
 			action: [ :aButton | 
 				WebBrowser
-					openOn: 'https://fhict.instructure.com/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ];
+					openOn: 'https://fhict.instructure.com/accounts/1/external_tools/23360?launch_type=global_navigation&toolId=portfolio-23360' ];"
 		actionButtonLabel: 'Grades'
 			tooltip: 'grades'
-			action: [ :aButton "aButton phlow spawnTool: pages first" | WebBrowser openOn: self canvasBaseUrl , courseId asString , '/gradebook' ];
+			action: [ :aButton "aButton phlow spawnTool: pages first" | 
+				WebBrowser
+					openOn: self canvasBaseUrl , '/courses/' , courseId asString , '/gradebook' ];
 		actionButtonLabel: 'att'
 			tooltip: 'attendance'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				WebBrowser
-					openOn: self canvasBaseUrl , courseId asString , '/external_tools/1663' ];
+					openOn: self canvasBaseUrl , '/courses/' , courseId asString , '/external_tools/1663' ];
 		actionButtonLabel: 'FP'
 			tooltip: 'feedpulse'
 			action: [ :aButton "aButton phlow spawnTool: pages first" | 
 				Clipboard clipboardText: 'wk07 - Coen'.
 				WebBrowser
-					openOn: self canvasBaseUrl , courseId asString , '/external_tools/1067' ]
+					openOn: self canvasBaseUrl , '/courses/' , courseId asString , '/external_tools/1067' ]	"sort: [ :a :b | a sortByThis <= b sortByThis ]"
 ]
 
 { #category : 'as yet unclassified' }
@@ -322,7 +353,7 @@ CACanvasCourse >> people: aPageNr [
 	| reply rawDatax nrPerPage all page |
 	nrPerPage := 100 asString.
 	reply := ZnClient new
-			url: 'https://fhict.instructure.com/' , 'api/v1/' , 'courses/' , self id asString
+			url: self canvasBaseUrl , '/api/v1/' , 'courses/' , self id asString
 					, '/users?per_page=' , nrPerPage , '&page=' , aPageNr asString;
 			headerAt: 'Authorization' put: ' Bearer ' , self token;
 			get.
