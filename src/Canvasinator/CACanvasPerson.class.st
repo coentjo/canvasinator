@@ -48,7 +48,7 @@ CACanvasPerson >> defaultColor [
 
 { #category : 'as yet unclassified' }
 CACanvasPerson >> directory [
-	^ FileLocator home / self contextName / 'student' / self iAccountNumber
+	^ FileLocator home / self contextName asString / 'student' / self iAccountNumber
 ]
 
 { #category : 'as yet unclassified' }

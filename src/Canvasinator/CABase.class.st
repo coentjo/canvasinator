@@ -7,6 +7,11 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+CABase >> contextNameRoped [
+	^ self contextName asRopedText background: Color lightBlue
+]
+
+{ #category : 'as yet unclassified' }
 CABase >> gtActionStuBruFor: anAction [
 	<gtAction>
 

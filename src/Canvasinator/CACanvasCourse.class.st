@@ -104,11 +104,6 @@ CACanvasCourse >> contextName: aString [
 ]
 
 { #category : 'as yet unclassified' }
-CACanvasCourse >> contextNameRoped [
-	^ self contextName asRopedText background: Color lightBlue
-]
-
-{ #category : 'as yet unclassified' }
 CACanvasCourse >> courseId [
 	^ courseId
 ]

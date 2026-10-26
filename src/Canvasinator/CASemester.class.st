@@ -12,10 +12,10 @@ Class {
 }
 
 { #category : 'accessing' }
-CASemester >> addCanvasCourse: aCourseId day: aString for: aString1 [ 
+CASemester >> addCanvasCourse: aCourseId day: aString for: aInzetCategory [ 
 	| course |
 	course := (CACanvasCourse courseId: aCourseId fromSnippet: fromSnippet)
-		contextName: aString; 
+		contextName: aInzetCategory; 
 		yourself.
 	self canvasCourses add: course
 
@@ -99,7 +99,7 @@ CASemester >> gtLiveFor: aView [
 		items: self canvasCourses , '-' , self todos sorted;
 		column: 'key'
 			text: [ :each | 
-				[ each contextName ]
+				[ each contextNameRoped ]
 					onErrorDo: [ '-' asRopedText background: Color gray ] ]
 			weight: 0.1;
 		column: 'name' text: [ :each | each asString ]
@@ -120,7 +120,7 @@ CASemester >> gtPagesFor: aView [
 CASemester >> gtTodosFor: aView [
 	<gtView>
 	| thisWk currentDayString |
-	thisWk := 'wk07'.
+	thisWk := 'wk08'.
 	currentDayString := 'd0' , (Date today weekdayIndex - 1) asString.
 	^ aView columnedList
 		title: 'Todos';
@@ -135,7 +135,7 @@ CASemester >> gtTodosFor: aView [
 				text := (self titleParts: page) at: 2.
 				((text splitOn: $_) at: 1) asRopedText
 					background: ((text matchesRegexIgnoringCase: thisWk , '.*')
-							ifTrue: [ Color purple muchLighter ]
+							ifTrue: [ Color green lighter ]
 							ifFalse: [ Color gray muchLighter ]) ]
 			width: 55;
 		column: 'd'

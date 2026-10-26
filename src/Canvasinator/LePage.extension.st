@@ -6,7 +6,7 @@ LePage >> <= anotherPage [
 ]
 
 { #category : '*canvasinator' }
-LePage >> contextName [
+LePage >> contextNameRoped [
 	| triggerWords colors |
 	triggerWords := { 'todo' . 'ongoing' }.
 	colors := { Color orange . Color white. Color red . Color lightGray }.
